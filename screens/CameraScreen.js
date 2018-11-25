@@ -14,7 +14,6 @@ import { RNCamera } from 'react-native-camera';
 export default class CameraScreen extends Component {
     constructor() {
 		super();
-		
 		this.state = {
 			visible: false
 		};
