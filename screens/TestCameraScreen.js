@@ -9,8 +9,9 @@ import
   Button
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import { withNavigationFocus } from "react-navigation";
 
-class cameraComp extends Component
+class TestCameraScreen extends Component
 {
 
   takePicture = async function ()
@@ -46,37 +47,35 @@ class cameraComp extends Component
         >
           <Text style={{ fontSize: 14 }}> TOUCH ME SENPAI </Text>
         </TouchableOpacity>
-        <Button onPress={() => { this.props.navigation.navigate('Home') }} title='Back' />
+        <Button onPress={() => {}} title='Back' />
       </View>
     </RNCamera>
-  ;
+  
+  
+ 
+
+  renderCamera = () => {
+    const focused = this.props.navigation.isFocused();
+    if(focused)
+    return this.myCamera;
+    else
+    return null;
+  }
+
   render()
   {
-    //this.renderCamera();
   
     return (
        <View style={styles.container}>
-        <NavigationEvents
-        onDidBlur = {payload => console.log(this.focused)}
-        onDidFocus = {payload => console.log(this.focused)}
-        />
-
+        {this.renderCamera()}
        </View>
-
-      
-      
-
-
-
-      
-
     );
   }
 
 
 }
 
-export default CameraScreen;
+export default withNavigationFocus(TestCameraScreen);
 
 
 

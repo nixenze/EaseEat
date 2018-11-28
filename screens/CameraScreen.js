@@ -1,8 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  Dimensions,
+import
+{
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,69 +9,112 @@ import {
   Button
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import { NavigationEvents } from 'react-navigation';
 
-export default class CameraScreen extends Component {
-    constructor() {
-		super();
-		this.state = {
-			visible: false
-		};
-	}
+class CameraScreen extends Component
+{
+  constructor(props)
+  {
+    super(props);
 
-	componentDidMount() {
-		setTimeout(() => {
-			this.setState({
-				visible: true
-			});
-		}, 300); // Delay 300 ms
+    this.state = {
+      focused: null,
+      cameraOption: {
+        type: RNCamera.Constants.Type.front,
+        flashMode: RNCamera.Constants.FlashMode.off,
+      }
+
+
+    };
   }
 
-  takePicture = async function() {
-    if (this.camera) {
+  takePicture = async function ()
+  {
+    if (this.camera)
+    {
       const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options)
       console.log(data.uri);
     }
   };
-  
 
-  render() {
-    return (this.state.visible&&
-      <View style={styles.container}>
+  changeCam = () =>
+  {
+     const { back, front } = RNCamera.Constants.Type;
+    if (this.state.cameraOption.type === front)
+      this.setState({
+        cameraOption : {
+          type: back
+        }}
+      )
+    else
+    this.setState({
+      cameraOption : {
+        type: front
+      }}
+    )
+  }
+
+  renderCamera = () =>
+  {
+    if (this.state.focused)
+      return (
         <RNCamera
-            ref={ref => {
-              this.camera = ref;
-            }}
-            style = {styles.preview}
-            type={RNCamera.Constants.Type.back}
-            flashMode={RNCamera.Constants.FlashMode.off}
-            permissionDialogTitle={'Permission to use camera'}
-            permissionDialogMessage={'We need your permission to use your camera phone'}
-            onGoogleVisionBarcodesDetected={({ barcodes }) => {
-              console.log(barcodes)
-            }}
-        />
-        <View style={{flex: 0, flexDirection: 'column', justifyContent: 'center',}}>
-        <TouchableOpacity
-            onPress={this.takePicture.bind(this)}
-            style = {styles.capture}
+          ref={ref =>
+          {
+            this.camera = ref;
+          }}
+          style={styles.preview}
+          type={this.state.cameraOption.type}
+          flashMode={this.state.cameraOption.flashMode}
+          permissionDialogTitle={'Permission to use camera'}
+          permissionDialogMessage={'We need your permission to use your camera phone'}
         >
-            <Text style={{fontSize: 14}}> TOUCH ME SENPAI </Text>
-        </TouchableOpacity>
-        <Button onPress={() => {this.props.navigation.goBack()}} title='Back' />
-        </View>
+          <View style={{ flex: 0, flexDirection: 'column', justifyContent: 'center', }}>
+            <TouchableOpacity
+              onPress={this.takePicture.bind(this)}
+              style={styles.capture}
+            >
+              <Text style={{ fontSize: 14 }}> TOUCH ME SENPAI </Text>
+            </TouchableOpacity>
+            <Button onPress={
+
+              this.changeCam
+
+            } title='Switch Camera' />
+          </View>
+        </RNCamera>
+      )
+    else
+      return null;
+  }
+  render()
+  {
+    //this.renderCamera();
+
+    return (
+      <View style={styles.container}>
+        <NavigationEvents
+          onDidBlur={payload => this.setState({ focused: false })}
+          onDidFocus={payload => this.setState({ focused: true })}
+        />
+        {this.renderCamera()}
       </View>
+
+
     );
   }
 
 
 }
 
+export default CameraScreen;
+
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'black'
   },
   preview: {
     flex: 1,
