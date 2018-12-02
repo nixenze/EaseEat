@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import FoodListScreen from './screens/FoodListScreen';
 import CameraScreen from './screens/CameraScreen';
 import TestCameraScreen from './screens/TestCameraScreen';
-import {createBottomTabNavigator,createStackNavigator,createAppContainer} from 'react-navigation';
+import {createBottomTabNavigator} from 'react-navigation';
 
 
 
@@ -16,9 +16,6 @@ let AppNavigator = createBottomTabNavigator({
 
 
 export default class App extends Component {
-  static navigationOptions = {
-    title: 'EaseEat'
-  };
   render() {
     return (
       <AppNavigator />

@@ -1,49 +1,26 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, ScrollView, Image } from 'react-native'
+import { Text, StyleSheet, View, ScrollView, Image, Button } from 'react-native'
+import {createStackNavigator} from 'react-navigation'
 
 
 
 
-export default class FoodListScreen extends Component
+class FoodListScreen extends Component
 {
+    static navigationOptions = {
+        title: 'EaseEat'
+      };
+      
     render()
     {
         return (
-            <View >
-                <ScrollView>
-                    <Text style={{ fontSize: 96 }}>Scroll me plz</Text>
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Text style={{ fontSize: 96 }}>If you like</Text>
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Text style={{ fontSize: 96 }}>Scrolling down</Text>
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Text style={{ fontSize: 96 }}>What's the best</Text>
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Text style={{ fontSize: 96 }}>Framework around?</Text>
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Image source={{ uri: "https://facebook.github.io/react-native/img/favicon.png", width: 64, height: 64 }} />
-                    <Text style={{ fontSize: 80 }}>React Native</Text>
-                </ScrollView>
+            <View style={{flex:1,alignItems:"center",justifyContent:"center"}}>
+            <Button onPress={()=> {this.props.navigation.push('popUp')}} title='Test'></Button>
             </View>
         )
     }
 }
+export default createStackNavigator({
+    Menu : FoodListScreen,
+    popUp : FoodListScreen
+});

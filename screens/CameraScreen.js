@@ -9,10 +9,14 @@ import
   Button
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
-import { NavigationEvents } from 'react-navigation';
+import { NavigationEvents,createStackNavigator } from 'react-navigation';
 
 class CameraScreen extends Component
 {
+  static navigationOptions = {
+    title: 'EaseEat'
+  };
+
   constructor(props)
   {
     super(props);
@@ -108,7 +112,11 @@ class CameraScreen extends Component
 
 }
 
-export default CameraScreen;
+export default createStackNavigator({
+  cameraRoot : CameraScreen,
+});
+
+
 
 
 
