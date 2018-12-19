@@ -79,7 +79,7 @@ class CameraScreen extends Component
               onPress={this.takePicture.bind(this)}
               style={styles.capture}
             >
-              <Text style={{ fontSize: 14 }}> TOUCH ME SENPAI </Text>
+              <Text style={{ fontSize: 14 }}> Take Photo </Text>
             </TouchableOpacity>
             <Button onPress={
 
