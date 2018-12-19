@@ -8,7 +8,7 @@ import {
     Button,
     TouchableNativeFeedback as TouchNative,
     Platform,
-    FlatList
+    FlatList,
 } from 'react-native'
 import { createStackNavigator } from 'react-navigation'
 import FoodInfoScreen from './FoodInfoScreen';
@@ -26,7 +26,8 @@ class FoodListScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data :[{
+
+            foodData: [{
                 engName: 'Hamburger1',
                 thaiName: 'แฮมเบอร์เกอร์',
                 img: require('../images/img0.jpg')
@@ -38,37 +39,65 @@ class FoodListScreen extends Component {
                 engName: 'Hamburger3',
                 thaiName: 'แฮมเบอร์เกอร์',
                 img: require('../images/img0.jpg')
+            }, {
+                engName: 'Hamburger3',
+                thaiName: 'แฮมเบอร์เกอร์',
+                img: require('../images/img0.jpg')
+            }, {
+                engName: 'Hamburger3',
+                thaiName: 'แฮมเบอร์เกอร์',
+                img: require('../images/img0.jpg')
+            }, {
+                engName: 'Hamburger3',
+                thaiName: 'แฮมเบอร์เกอร์',
+                img: require('../images/img0.jpg')
+            }, {
+                engName: 'Hamburger3',
+                thaiName: 'แฮมเบอร์เกอร์',
+                img: require('../images/img0.jpg')
+            }, {
+                engName: 'Hamburger3',
+                thaiName: 'แฮมเบอร์เกอร์',
+                img: require('../images/img0.jpg')
+            }, {
+                engName: 'Hamburger3',
+                thaiName: 'แฮมเบอร์เกอร์',
+                img: require('../images/img0.jpg')
             },
-        ],
+            ],
         };
     }
 
 
     render() {
         return (
-            <FoodScrollView data={this.state.data}
-            nav={this.props.navigation}
+            <FoodScrollView data={this.state.foodData}
+                nav={this.props.navigation}
+                style={styles.container}
             />
         )
     }
 }
 
 class FoodScrollView extends Component {
+
+    renderItem = ({ item }) => {
+        return <FoodItem
+            engName={item.engName}
+            thaiName={item.thaiName}
+            img={item.img}
+            nav={this.props.nav}
+        />
+
+    }
     render() {
         return (
-
-            <FlatList 
+            <FlatList
+                keyExtractor={item => item.engName}
                 data={this.props.data}
-                renderItem={(data) => {
-                    <FoodItem
-                    engName={data.engName}
-                    thaiName={data.thaiName}
-                    img={data.img}
-                    />
-                }}
+                ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: 'gainsboro' }} />}
+                renderItem={this.renderItem}
             />
-        
-
         )
     }
 }
@@ -79,7 +108,7 @@ class FoodItem extends Component {
     render() {
         return (
             <TouchNative
-                onPress={() => { }}
+                onPress={() => { this.props.nav.navigate('popUp') }}
                 background={Platform.OS === 'android' ? TouchNative.SelectableBackground() : ''}
             >
                 <View style={{ flex: 1 }}>
@@ -95,7 +124,7 @@ class FoodItem extends Component {
 
 
                     </View>
-                    <View style={{ height: 1, backgroundColor: 'gainsboro' }} />
+
                 </View>
             </TouchNative>
         )
@@ -107,7 +136,10 @@ class FoodItem extends Component {
 export default createStackNavigator({
     Menu: FoodListScreen,
     popUp: FoodInfoScreen
-});
+}, {
+        cardStyle: { backgroundColor: 'white' }
+    }
+);
 
 
 const foodStyles = StyleSheet.create({
@@ -118,10 +150,8 @@ const foodStyles = StyleSheet.create({
     }
 });
 
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         alignItems: "stretch",
-//         //justifyContent: "center"
-//     }
-// });
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: 'white'
+    }
+});
