@@ -28,8 +28,6 @@ class CameraScreen extends Component
         type: RNCamera.Constants.Type.back,
         flashMode: RNCamera.Constants.FlashMode.off,
       }
-
-
     };
   }
 
@@ -43,8 +41,14 @@ class CameraScreen extends Component
         doNotSave: false,
         fixOrientation : true,
       };
-      const data = await this.camera.takePictureAsync(options)
-      this.props.navigation.navigate('result',{image : data});
+      const data = await this.camera.takePictureAsync(options);
+      fetch('https://facebook.github.io/react-native/movies.json').then(
+        (response) => {
+          return response.json();
+      }).then((res) => {
+        //console.log(res);
+        this.props.navigation.navigate('result',{image : data,json : res})
+      })
     }
   };
 
@@ -64,7 +68,7 @@ class CameraScreen extends Component
     )
   }
 
-  renderCamera = () =>
+  renderCamera(){
   {
     if (this.state.focused)
       return (
@@ -97,9 +101,11 @@ class CameraScreen extends Component
     else
       return null;
   }
+}
   render()
   {
     //this.renderCamera();
+    
 
     return (
       <View style={styles.container}>
@@ -120,7 +126,11 @@ class CameraScreen extends Component
 export default createStackNavigator({
   cameraRoot : CameraScreen,
   result : CameraResult
-});
+
+}, {
+  cardStyle: { backgroundColor: 'white' }
+}
+);
 
 
 
