@@ -114,7 +114,7 @@ class FoodItem extends Component {
                 <View style={{ flex: 1 }}>
                     <View style={foodStyles.container}>
                         <Image
-                            style={{ width: 150, height: 150 }}
+                            style={{ width: 150, height: 150}}
                             source={this.props.img}
                         />
                         <View style={{ paddingLeft: 32, justifyContent: 'center' }}>

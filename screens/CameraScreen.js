@@ -10,6 +10,7 @@ import
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { NavigationEvents,createStackNavigator } from 'react-navigation';
+import CameraResult from './CameraResult';
 
 class CameraScreen extends Component
 {
@@ -24,7 +25,7 @@ class CameraScreen extends Component
     this.state = {
       focused: null,
       cameraOption: {
-        type: RNCamera.Constants.Type.front,
+        type: RNCamera.Constants.Type.back,
         flashMode: RNCamera.Constants.FlashMode.off,
       }
 
@@ -32,18 +33,22 @@ class CameraScreen extends Component
     };
   }
 
-  takePicture = async function ()
+  async takePicture ()
   {
     if (this.camera)
     {
-      const options = { quality: 0.5, base64: true };
+      const options = { 
+        quality: 0.5, 
+        base64: false,
+        doNotSave: false,
+        fixOrientation : true,
+      };
       const data = await this.camera.takePictureAsync(options)
-      console.log(data.uri);
+      this.props.navigation.navigate('result',{image : data});
     }
   };
 
-  changeCam = () =>
-  {
+  changeCam(){
      const { back, front } = RNCamera.Constants.Type;
     if (this.state.cameraOption.type === front)
       this.setState({
@@ -83,7 +88,7 @@ class CameraScreen extends Component
             </TouchableOpacity>
             <Button onPress={
 
-              this.changeCam
+              this.changeCam.bind(this)
 
             } title='Switch Camera' />
           </View>
@@ -114,6 +119,7 @@ class CameraScreen extends Component
 
 export default createStackNavigator({
   cameraRoot : CameraScreen,
+  result : CameraResult
 });
 
 
