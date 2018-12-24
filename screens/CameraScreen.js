@@ -1,7 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import
-{
+import {
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,17 +9,16 @@ import
   CameraRoll
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
-import { NavigationEvents,createStackNavigator } from 'react-navigation';
+import { NavigationEvents, createStackNavigator } from 'react-navigation';
 import CameraResult from './CameraResult';
+import SwitchSelector from 'react-native-switch-selector';
 
-class CameraScreen extends Component
-{
+class CameraScreen extends Component {
   static navigationOptions = {
     title: 'EaseEat'
   };
 
-  constructor(props)
-  {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -28,30 +26,36 @@ class CameraScreen extends Component
       cameraOption: {
         type: RNCamera.Constants.Type.back,
         flashMode: RNCamera.Constants.FlashMode.off,
-      }
+      },
+      menuMode: false
     };
   }
 
-  async takePicture ()
-  {
-    if (this.camera)
-    {
-      const options = { 
-        quality: 0.5, 
+  async takePicture() {
+    if (this.camera) {
+      const options = {
+        quality: 0.5,
         base64: true,
         doNotSave: true,
-        fixOrientation : true,
-        orientation : "portrait"
+        fixOrientation: false,
+        orientation: "portrait"
       };
       const data = await this.camera.takePictureAsync(options);
+      this.sendToServer(data);
+    }
+  };
+
+  sendToServer(data) {
+
+    const sendJson = JSON.stringify(
+      {
+        image: data.base64,
+        filename: "img.jpeg",
+      }
+    );
+
+    if (!this.state.menuMode) {
       const url = 'http://35.187.232.27:5000/test'
-      const sendJson = JSON.stringify(
-        {
-          image : data.base64,
-          filename : "img.jpeg",
-        }
-      );
-       console.log(sendJson);
       fetch(url, {
         method: 'post',
         headers: {
@@ -61,70 +65,94 @@ class CameraScreen extends Component
         body: sendJson
       }).then(
         (response) => {
-          console.log("sent!");
           return response.json();
-      }).then((res) => {
-        console.log(res);
-        this.props.navigation.navigate('result',{image : data,json : res})
-        //CameraRoll.saveToCameraRoll(data.uri);
-      }).catch((err)=>{console.log(err)})
+        }).then((res) => {
+          this.props.navigation.navigate('result', { image: data, json: res })
+          //CameraRoll.saveToCameraRoll(data.uri);
+        }).catch((err) => { console.log(err) })
     }
-  };
+    else {
+      const url = '---'
+      fetch(url, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: sendJson
+      }).then(
+        (response) => {
+          return response.json();
+        }).then((res) => {
+          this.props.navigation.navigate('result', { image: data, json: res })
+          //CameraRoll.saveToCameraRoll(data.uri);
+        }).catch((err) => { console.log(err) })
+    }
 
-  changeCam(){
-     const { back, front } = RNCamera.Constants.Type;
+
+  }
+
+  changeCam() {
+    const { back, front } = RNCamera.Constants.Type;
     if (this.state.cameraOption.type === front)
       this.setState({
-        cameraOption : {
+        cameraOption: {
           type: back
-        }}
+        }
+      }
       )
     else
-    this.setState({
-      cameraOption : {
-        type: front
-      }}
-    )
-  }
-
-  renderCamera(){
-  {
-    if (this.state.focused)
-      return (
-        <RNCamera
-          ref={ref =>
-          {
-            this.camera = ref;
-          }}
-          style={styles.preview}
-          type={this.state.cameraOption.type}
-          flashMode={this.state.cameraOption.flashMode}
-          permissionDialogTitle={'Permission to use camera'}
-          permissionDialogMessage={'We need your permission to use your camera phone'}
-        >
-          <View style={{ flex: 0, flexDirection: 'column', justifyContent: 'center', }}>
-            <TouchableOpacity
-              onPress={this.takePicture.bind(this)}
-              style={styles.capture}
-            >
-              <Text style={{ fontSize: 14 }}> Take Photo </Text>
-            </TouchableOpacity>
-            <Button onPress={
-
-              this.changeCam.bind(this)
-
-            } title='Switch Camera' />
-          </View>
-        </RNCamera>
+      this.setState({
+        cameraOption: {
+          type: front
+        }
+      }
       )
-    else
-      return null;
   }
-}
-  render()
-  {
+
+  renderCamera() {
+    {
+      if (this.state.focused)
+        return (
+          <RNCamera
+            ref={ref => {
+              this.camera = ref;
+            }}
+            style={styles.preview}
+            type={this.state.cameraOption.type}
+            flashMode={this.state.cameraOption.flashMode}
+            permissionDialogTitle={'Permission to use camera'}
+            permissionDialogMessage={'We need your permission to use your camera phone'}
+          >
+            <View style={{ flex: 0, flexDirection: 'column', justifyContent: 'center', }}>
+              <TouchableOpacity
+                onPress={this.takePicture.bind(this)}
+                style={styles.capture}
+              >
+                <Text style={{ fontSize: 14 }}> Take Photo </Text>
+              </TouchableOpacity>
+              <Button onPress={
+
+                this.changeCam.bind(this)
+
+              } title='Switch Camera' />
+            </View>
+          </RNCamera>
+        )
+      else
+        return null;
+    }
+  }
+  render() {
     //this.renderCamera();
-    
+
+    const switchOption = [
+      { label: "Food Scan", value: false },
+      { label: "Menu Scan", value: true }
+
+    ]
+
+
 
     return (
       <View style={styles.container}>
@@ -133,6 +161,15 @@ class CameraScreen extends Component
           onDidFocus={payload => this.setState({ focused: true })}
         />
         {this.renderCamera()}
+        <SwitchSelector
+          initial={0}
+          onPress={value => this.setState({ menuMode: value })}
+          textColor={'orange'} //'#7a44cf'
+          selectedColor={'white'}
+          buttonColor={'orange'}
+          borderColor={'orange'}
+          hasPadding
+          options={switchOption} />
       </View>
 
 
@@ -143,12 +180,12 @@ class CameraScreen extends Component
 }
 
 export default createStackNavigator({
-  cameraRoot : CameraScreen,
-  result : CameraResult
+  cameraRoot: CameraScreen,
+  result: CameraResult
 
 }, {
-  cardStyle: { backgroundColor: 'white' }
-}
+    cardStyle: { backgroundColor: 'white' }
+  }
 );
 
 
