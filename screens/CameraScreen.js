@@ -6,7 +6,8 @@ import
   Text,
   TouchableOpacity,
   View,
-  Button
+  Button,
+  CameraRoll
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { NavigationEvents,createStackNavigator } from 'react-navigation';
@@ -37,18 +38,36 @@ class CameraScreen extends Component
     {
       const options = { 
         quality: 0.5, 
-        base64: false,
-        doNotSave: false,
+        base64: true,
+        doNotSave: true,
         fixOrientation : true,
+        orientation : "portrait"
       };
       const data = await this.camera.takePictureAsync(options);
-      fetch('https://facebook.github.io/react-native/movies.json').then(
+      const url = 'http://35.187.232.27:5000/test'
+      const sendJson = JSON.stringify(
+        {
+          image : data.base64,
+          filename : "img.jpeg",
+        }
+      );
+       console.log(sendJson);
+      fetch(url, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: sendJson
+      }).then(
         (response) => {
+          console.log("sent!");
           return response.json();
       }).then((res) => {
-        //console.log(res);
+        console.log(res);
         this.props.navigation.navigate('result',{image : data,json : res})
-      })
+        //CameraRoll.saveToCameraRoll(data.uri);
+      }).catch((err)=>{console.log(err)})
     }
   };
 
