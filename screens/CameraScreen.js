@@ -112,6 +112,11 @@ class CameraScreen extends Component {
 
   renderCamera() {
     {
+      const switchOption = [
+        { label: "Food Scan", value: false },
+        { label: "Menu Scan", value: true }
+      ]
+
       if (this.state.focused)
         return (
           <RNCamera
@@ -136,6 +141,15 @@ class CameraScreen extends Component {
                 this.changeCam.bind(this)
 
               } title='Switch Camera' />
+              <SwitchSelector
+                initial={0}
+                onPress={value => this.setState({ menuMode: value })}
+                textColor={'orange'} //'#7a44cf'
+                selectedColor={'white'}
+                buttonColor={'orange'}
+                borderColor={'orange'}
+                hasPadding
+                options={switchOption} />
             </View>
           </RNCamera>
         )
@@ -143,16 +157,9 @@ class CameraScreen extends Component {
         return null;
     }
   }
+
+  
   render() {
-    //this.renderCamera();
-
-    const switchOption = [
-      { label: "Food Scan", value: false },
-      { label: "Menu Scan", value: true }
-
-    ]
-
-
 
     return (
       <View style={styles.container}>
@@ -161,15 +168,7 @@ class CameraScreen extends Component {
           onDidFocus={payload => this.setState({ focused: true })}
         />
         {this.renderCamera()}
-        <SwitchSelector
-          initial={0}
-          onPress={value => this.setState({ menuMode: value })}
-          textColor={'orange'} //'#7a44cf'
-          selectedColor={'white'}
-          buttonColor={'orange'}
-          borderColor={'orange'}
-          hasPadding
-          options={switchOption} />
+
       </View>
 
 
