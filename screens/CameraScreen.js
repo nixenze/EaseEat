@@ -37,11 +37,16 @@ class CameraScreen extends Component {
         quality: 0.5,
         base64: true,
         doNotSave: true,
-        fixOrientation: false,
+        fixOrientation: true,
         orientation: "portrait"
       };
       const data = await this.camera.takePictureAsync(options);
-      this.sendToServer(data);
+      const response = this.sendToServer(data);
+
+      this.props.navigation.navigate('result', {
+        image: data.base64,
+        json: response
+      });
     }
   };
 
@@ -54,40 +59,32 @@ class CameraScreen extends Component {
       }
     );
 
-    if (!this.state.menuMode) {
-      const url = 'http://35.187.232.27:5000/test'
-      fetch(url, {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: sendJson
-      }).then(
-        (response) => {
-          return response.json();
-        }).then((res) => {
-          this.props.navigation.navigate('result', { image: data, json: res })
-          //CameraRoll.saveToCameraRoll(data.uri);
-        }).catch((err) => { console.log(err) })
-    }
-    else {
-      const url = '---'
-      fetch(url, {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: sendJson
-      }).then(
-        (response) => {
-          return response.json();
-        }).then((res) => {
-          this.props.navigation.navigate('result', { image: data, json: res })
-          //CameraRoll.saveToCameraRoll(data.uri);
-        }).catch((err) => { console.log(err) })
-    }
+    const json =JSON.stringify({
+      results : 'test'
+    });
+
+    return json;
+    // const url = 'http://35.187.232.27:5000/test'
+
+    // if (this.state.menuMode) {
+
+    //   url = 'httpxxx'
+    // }
+
+    // fetch(url, {
+    //   method: 'post',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: sendJson
+    // }).then(
+    //   (response) => {
+    //     return response.json();
+    //   }).then((res) => {
+    //     this.props.navigation.navigate('result', { image: data, json: res })
+
+    //   }).catch((err) => { console.log(err) })
 
 
   }
@@ -158,7 +155,7 @@ class CameraScreen extends Component {
     }
   }
 
-  
+
   render() {
 
     return (

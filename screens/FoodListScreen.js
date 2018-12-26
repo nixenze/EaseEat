@@ -12,6 +12,7 @@ import {
 } from 'react-native'
 import { createStackNavigator } from 'react-navigation'
 import FoodInfoScreen from './FoodInfoScreen';
+import FoodItem from '../components/FoodItem';
 
 
 
@@ -102,34 +103,6 @@ class FoodScrollView extends Component {
     }
 }
 
-class FoodItem extends Component {
-
-
-    render() {
-        return (
-            <TouchNative
-                onPress={() => { this.props.nav.navigate('popUp') }}
-                background={Platform.OS === 'android' ? TouchNative.SelectableBackground() : ''}
-            >
-                <View style={{ flex: 1 }}>
-                    <View style={foodStyles.container}>
-                        <Image
-                            style={{ width: 150, height: 150}}
-                            source={this.props.img}
-                        />
-                        <View style={{ paddingLeft: 32, justifyContent: 'center' }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{this.props.engName}</Text>
-                            <Text>{this.props.thaiName}</Text>
-                        </View>
-
-
-                    </View>
-
-                </View>
-            </TouchNative>
-        )
-    }
-}
 
 
 
@@ -142,13 +115,7 @@ export default createStackNavigator({
 );
 
 
-const foodStyles = StyleSheet.create({
-    container: {
-        height: 150,
-        flexDirection: 'row'
 
-    }
-});
 
 const styles = StyleSheet.create({
     container: {

@@ -2,15 +2,23 @@ import React, {Component} from 'react';
 import FoodListScreen from './screens/FoodListScreen';
 import CameraScreen from './screens/CameraScreen';
 import TestCameraScreen from './screens/TestCameraScreen';
-import {createBottomTabNavigator} from 'react-navigation';
+import {createBottomTabNavigator, createStackNavigator} from 'react-navigation';
+import CameraResult from './screens/CameraResult';
 
 
 
 
-let AppNavigator = createBottomTabNavigator({
+const temp = createStackNavigator({
+  Test : {screen: CameraResult},
+},{
+  cardStyle: { backgroundColor: 'white' }
+}
+)
+
+const AppNavigator = createBottomTabNavigator({
     Menu : {screen: FoodListScreen},
     Camera : {screen: CameraScreen},
-    Camera2 : {screen: TestCameraScreen},
+    Test : {screen: temp},
     },
 );
 
