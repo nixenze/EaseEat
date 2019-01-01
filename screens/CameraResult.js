@@ -1,8 +1,24 @@
 import React, { Component } from 'react'
-import { Text, View, Image, StyleSheet, ImageBackground } from 'react-native'
+import { Text, View, Image, StyleSheet, ImageBackground,FlatList } from 'react-native'
 import FoodItem from '../components/FoodItem';
 
-export class CameraResult extends Component {
+class CameraResult extends Component {
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      foodData: [{
+        engName: 'Hamburger1',
+        thaiName: 'แฮมเบอร์เกอร์',
+        img: require('../images/img0.jpg')
+      },{
+        engName: 'Hamburger1',
+        thaiName: 'แฮมเบอร์เกอร์',
+        img: require('../images/img0.jpg')
+      }]
+    }
+  }
 
   render() {
 
@@ -13,11 +29,9 @@ export class CameraResult extends Component {
           style={styles.resultsBanner}
         >
           <Text style={styles.resultBannerText}>Results</Text>
-        </ImageBackground>
-        <FoodItem
-          engName='Hamburger'
-          thaiName='แฮมเบอร์เกอร์'
-          img={require('../images/img0.jpg')}
+        </ImageBackground> 
+        <ResultList data={this.state.foodData} 
+        nav={this.props.navigation}
         />
       </View>
     )
@@ -30,12 +44,35 @@ export class CameraResult extends Component {
 //   </ImageBackground>
 
 
+class ResultList extends Component {
+  renderItem = ({ item }) => {
+    return <FoodItem
+      engName={item.engName}
+      thaiName={item.thaiName}
+      img={item.img}
+      nav={this.props.nav}
+    />
+
+  }
+  render() {
+    return (
+      <FlatList
+        keyExtractor={item => item.engName}
+        data={this.props.data}
+        ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: 'gainsboro' }} />}
+        renderItem={this.renderItem}
+      />
+    )
+  }
+}
+
+
 export default CameraResult
 
 
 const styles = StyleSheet.create({
   container: {
-    flex:1
+    flex: 1
   },
   resultsBanner: {
     height: 192,

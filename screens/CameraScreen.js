@@ -12,6 +12,7 @@ import { RNCamera } from 'react-native-camera';
 import { NavigationEvents, createStackNavigator } from 'react-navigation';
 import CameraResult from './CameraResult';
 import SwitchSelector from 'react-native-switch-selector';
+import ImagePicker from 'react-native-image-crop-picker';
 
 class CameraScreen extends Component {
   static navigationOptions = {
@@ -59,8 +60,8 @@ class CameraScreen extends Component {
       }
     );
 
-    const json =JSON.stringify({
-      results : 'test'
+    const json = JSON.stringify({
+      results: 'test'
     });
 
     return json;
@@ -106,6 +107,15 @@ class CameraScreen extends Component {
       }
       )
   }
+  pickImage() {
+    ImagePicker.openCamera({
+      width: 600,
+      height: 600,
+      cropping: true
+    }).then(image => {
+      console.log(image);
+    });
+  }
 
   renderCamera() {
     {
@@ -135,9 +145,9 @@ class CameraScreen extends Component {
               </TouchableOpacity>
               <Button onPress={
 
-                this.changeCam.bind(this)
+                this.pickImage
 
-              } title='Switch Camera' />
+              } title='Pick from gallery' />
               <SwitchSelector
                 initial={0}
                 onPress={value => this.setState({ menuMode: value })}
