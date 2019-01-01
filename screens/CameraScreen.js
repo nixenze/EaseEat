@@ -25,37 +25,17 @@ class CameraScreen extends Component {
     this.state = {
       focused: null,
       cameraOption: {
-        type: RNCamera.Constants.Type.back,
-        flashMode: RNCamera.Constants.FlashMode.off,
+
       },
       menuMode: false
     };
   }
 
-  async takePicture() {
-    if (this.camera) {
-      const options = {
-        quality: 0.5,
-        base64: true,
-        doNotSave: true,
-        fixOrientation: true,
-        orientation: "portrait"
-      };
-      const data = await this.camera.takePictureAsync(options);
-      const response = this.sendToServer(data);
-
-      this.props.navigation.navigate('result', {
-        image: data.base64,
-        json: response
-      });
-    }
-  };
-
-  sendToServer(data) {
-
+  sendToServer(image) {
+    
     const sendJson = JSON.stringify(
       {
-        image: data.base64,
+        image: image.data,
         filename: "img.jpeg",
       }
     );
@@ -63,8 +43,9 @@ class CameraScreen extends Component {
     const json = JSON.stringify({
       results: 'test'
     });
+    this.props.navigation.navigate('result', { image: image, json: json })
 
-    return json;
+    
     // const url = 'http://35.187.232.27:5000/test'
 
     // if (this.state.menuMode) {
@@ -90,78 +71,78 @@ class CameraScreen extends Component {
 
   }
 
-  changeCam() {
-    const { back, front } = RNCamera.Constants.Type;
-    if (this.state.cameraOption.type === front)
-      this.setState({
-        cameraOption: {
-          type: back
-        }
-      }
-      )
-    else
-      this.setState({
-        cameraOption: {
-          type: front
-        }
-      }
-      )
-  }
-  pickImage() {
-    ImagePicker.openCamera({
+  async getImage(mode) {
+
+    var image = null;
+    const pickerSetting = {
       width: 600,
       height: 600,
-      cropping: true
-    }).then(image => {
-      console.log(image);
-    });
+      includeBase64: true,
+      cropping: true,
+      hideButtomControl: true
+    }
+    try {
+      if (mode === 'camera') {
+        image = await ImagePicker.openCamera(pickerSetting)
+      }
+      else {
+        image = await ImagePicker.openPicker(pickerSetting)
+      }
+      this.sendToServer(image);
+
+
+    } catch (error) {
+      console.log(error);
+    }
+
+
+    
+    
+    
+
   }
 
-  renderCamera() {
+  renderScreen() {
     {
       const switchOption = [
         { label: "Food Scan", value: false },
         { label: "Menu Scan", value: true }
       ]
 
-      if (this.state.focused)
-        return (
-          <RNCamera
-            ref={ref => {
-              this.camera = ref;
-            }}
-            style={styles.preview}
-            type={this.state.cameraOption.type}
-            flashMode={this.state.cameraOption.flashMode}
-            permissionDialogTitle={'Permission to use camera'}
-            permissionDialogMessage={'We need your permission to use your camera phone'}
+      return (
+        <View style={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 50,
+          marginBottom: 50
+        }}>
+          <TouchableOpacity
+            onPress={() => this.getImage('camera')}
+            style={styles.capture}
           >
-            <View style={{ flex: 0, flexDirection: 'column', justifyContent: 'center', }}>
-              <TouchableOpacity
-                onPress={this.takePicture.bind(this)}
-                style={styles.capture}
-              >
-                <Text style={{ fontSize: 14 }}> Take Photo </Text>
-              </TouchableOpacity>
-              <Button onPress={
-
-                this.pickImage
-
-              } title='Pick from gallery' />
-              <SwitchSelector
-                initial={0}
-                onPress={value => this.setState({ menuMode: value })}
-                textColor={'orange'} //'#7a44cf'
-                selectedColor={'white'}
-                buttonColor={'orange'}
-                borderColor={'orange'}
-                hasPadding
-                options={switchOption} />
-            </View>
-          </RNCamera>
-        )
-      else
-        return null;
+            <Text style={styles.fontStyle}>Take Photo</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.getImage('gallery')}
+            style={styles.capture}
+          >
+            <Text style={styles.fontStyle}>Pick From Gallery</Text>
+          </TouchableOpacity>
+          <SwitchSelector
+            initial={0}
+            onPress={value => this.setState({ menuMode: value })}
+            textColor={'orange'} //'#7a44cf'
+            selectedColor={'white'}
+            buttonColor={'orange'}
+            borderColor={'orange'}
+            hasPadding
+            options={switchOption}
+            style={{ margin: 50 }}
+          />
+        </View>
+      )
     }
   }
 
@@ -169,14 +150,9 @@ class CameraScreen extends Component {
   render() {
 
     return (
-      <View style={styles.container}>
-        <NavigationEvents
-          onDidBlur={payload => this.setState({ focused: false })}
-          onDidFocus={payload => this.setState({ focused: true })}
-        />
-        {this.renderCamera()}
+      //<View style={styles.container}>
+      this.renderScreen()
 
-      </View>
 
 
     );
@@ -208,12 +184,20 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   capture: {
-    flex: 0,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    padding: 15,
-    paddingHorizontal: 20,
-    alignSelf: 'center',
-    margin: 20
+
+    backgroundColor: 'orange',
+    borderRadius: 160,
+    height: 160,
+    width: 160,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 40
+  },
+  fontStyle: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: 5
   }
 });

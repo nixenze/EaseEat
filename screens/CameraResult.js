@@ -16,16 +16,20 @@ class CameraResult extends Component {
         engName: 'Hamburger1',
         thaiName: 'แฮมเบอร์เกอร์',
         img: require('../images/img0.jpg')
-      }]
+      }],
+      param:{ 
+      image:this.props.navigation.getParam('image',require('../images/img0.jpg')),
+      json:this.props.navigation.getParam('json',null)
+    }
     }
   }
 
   render() {
-
+    const base64Uri = 'data:image/png;base64,'+this.state.param.image.data;
 
     return (
       <View>
-        <ImageBackground source={require('../images/img0.jpg')}
+        <ImageBackground source={{uri: base64Uri}}
           style={styles.resultsBanner}
         >
           <Text style={styles.resultBannerText}>Results</Text>
@@ -85,6 +89,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 30,
     padding: 8,
+    textShadowColor: 'black',
+    textShadowRadius: 10,
   }
 
 });
