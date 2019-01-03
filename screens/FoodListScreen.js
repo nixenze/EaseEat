@@ -23,6 +23,13 @@ class FoodListScreen extends Component {
 
     static navigationOptions = {
         title: 'EaseEat',
+        headerStyle: {
+            backgroundColor: 'orange',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            fontWeight: 'bold',
+        },
     };
     constructor(props) {
         super(props);
@@ -108,7 +115,7 @@ class FoodScrollView extends Component {
 
 export default createStackNavigator({
     Menu: FoodListScreen,
-    popUp: FoodInfoScreen
+    foodInfo: FoodInfoScreen
 }, {
         cardStyle: { backgroundColor: 'white' }
     }

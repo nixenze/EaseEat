@@ -13,10 +13,18 @@ import { NavigationEvents, createStackNavigator } from 'react-navigation';
 import CameraResult from './CameraResult';
 import SwitchSelector from 'react-native-switch-selector';
 import ImagePicker from 'react-native-image-crop-picker';
+import FoodInfoScreen from './FoodInfoScreen';
 
 class CameraScreen extends Component {
   static navigationOptions = {
-    title: 'EaseEat'
+    title: 'EaseEat',
+    headerStyle: {
+      backgroundColor: 'orange',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    }
   };
 
   constructor(props) {
@@ -32,7 +40,7 @@ class CameraScreen extends Component {
   }
 
   sendToServer(image) {
-    
+
     const sendJson = JSON.stringify(
       {
         image: image.data,
@@ -45,7 +53,7 @@ class CameraScreen extends Component {
     });
     this.props.navigation.navigate('result', { image: image, json: json })
 
-    
+
     // const url = 'http://35.187.232.27:5000/test'
 
     // if (this.state.menuMode) {
@@ -96,9 +104,9 @@ class CameraScreen extends Component {
     }
 
 
-    
-    
-    
+
+
+
 
   }
 
@@ -163,7 +171,8 @@ class CameraScreen extends Component {
 
 export default createStackNavigator({
   cameraRoot: CameraScreen,
-  result: CameraResult
+  result: CameraResult,
+  foodInfo:FoodInfoScreen
 
 }, {
     cardStyle: { backgroundColor: 'white' }

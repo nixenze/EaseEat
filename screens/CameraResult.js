@@ -4,6 +4,17 @@ import FoodItem from '../components/FoodItem';
 
 class CameraResult extends Component {
 
+  static navigationOptions = {
+    title: 'Scan Result',
+    headerStyle: {
+      backgroundColor: 'orange',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    }
+  };
+
 
   constructor(props) {
     super(props);

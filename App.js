@@ -21,7 +21,11 @@ const AppNavigator = createBottomTabNavigator({
     Test : {screen: temp},
     },
     {
-      initialRouteName:'Camera'
+      initialRouteName:'Camera',
+      tabBarOptions: {
+        activeTintColor: 'orange',
+        inactiveTintColor: 'gray',
+      },
     }
 );
 

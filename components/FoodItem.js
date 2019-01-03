@@ -12,7 +12,7 @@ export class FoodItem extends Component {
     render() {
         return (
             <TouchNative
-                onPress={() => { this.props.nav.navigate('popUp')}}
+                onPress={() => { this.props.nav.navigate('foodInfo')}}
                 background={Platform.OS === 'android' ? TouchNative.SelectableBackground() : ''}
                 style={foodStyles.container}
             >
