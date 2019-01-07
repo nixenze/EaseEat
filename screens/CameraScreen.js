@@ -48,33 +48,34 @@ class CameraScreen extends Component {
       }
     );
 
-    const json = JSON.stringify({
-      results: 'test'
-    });
-    this.props.navigation.navigate('result', { image: image, json: json })
+    // const json = JSON.stringify({
+    //   results: 'test'
+    // });
+    // this.props.navigation.navigate('result', { image: image, json: json })
 
 
-    // const url = 'http://35.187.232.27:5000/test'
+    var url = 'http://35.186.151.151:5000/predict'
 
-    // if (this.state.menuMode) {
+    if (this.state.menuMode) {
 
-    //   url = 'httpxxx'
-    // }
+      url = 'http://35.187.232.27:5000/test'
+    }
 
-    // fetch(url, {
-    //   method: 'post',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: sendJson
-    // }).then(
-    //   (response) => {
-    //     return response.json();
-    //   }).then((res) => {
-    //     this.props.navigation.navigate('result', { image: data, json: res })
+    fetch(url, {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: sendJson
+    }).then(
+      (response) => {
+        return response.json();
+      }).then((res) => {
+        console.log(res);
+        this.props.navigation.navigate('result', { image: image, json: res })
 
-    //   }).catch((err) => { console.log(err) })
+      }).catch((err) => { console.log(err) })
 
 
   }

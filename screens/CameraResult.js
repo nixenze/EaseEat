@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, Image, StyleSheet, ImageBackground,FlatList } from 'react-native'
 import FoodItem from '../components/FoodItem';
+import {remoteDB,localDB} from '../components/database'
 
 class CameraResult extends Component {
 
@@ -19,24 +20,45 @@ class CameraResult extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      foodData: [{
-        engName: 'Hamburger1',
-        thaiName: 'แฮมเบอร์เกอร์',
-        img: require('../images/img0.jpg')
-      },{
-        engName: 'Hamburger1',
-        thaiName: 'แฮมเบอร์เกอร์',
-        img: require('../images/img0.jpg')
-      }],
+      foodData: [],
       param:{ 
       image:this.props.navigation.getParam('image',require('../images/img0.jpg')),
       json:this.props.navigation.getParam('json',null)
     }
-    }
+    };
+    this.addData();
+  }
+
+  addData(){
+    this.state.param.json.results.map(id => {
+    
+      localDB.get(id,{attachments: false}).then( (result) => {
+        // var imageAttch = Object.keys(result._attachments)[0];
+        // console.log(imageAttch);
+        // var trueImg = null;
+        // localDB.getAttachment(id,imageAttch).then((blob) => trueImg = blob)
+        console.log(result._attachments);
+
+        tempList = this.state.foodData;
+        tempList.push({
+          engName : result.English,
+          thaiName: result.Thai,
+          img: require('../images/img0.jpg')
+        });
+        this.setState({
+          foodData:tempList
+        });
+
+      })
+    } )
   }
 
   render() {
     const base64Uri = 'data:image/png;base64,'+this.state.param.image.data;
+
+
+    //console.log(this.state.param.json.results);
+
 
     return (
       <View>
