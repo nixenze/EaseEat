@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import FoodListScreen from './screens/FoodListScreen';
 import CameraScreen from './screens/CameraScreen';
 import TestCameraScreen from './screens/TestCameraScreen';
-import {createBottomTabNavigator, createStackNavigator} from 'react-navigation';
+import {createBottomTabNavigator, createStackNavigator,createSwitchNavigator} from 'react-navigation';
 import CameraResult from './screens/CameraResult';
+import WelcomeScreen from'./screens/WelcomeScreen';
 
 
 
@@ -15,7 +16,7 @@ const temp = createStackNavigator({
 }
 )
 
-const AppNavigator = createBottomTabNavigator({
+const mainApp = createBottomTabNavigator({
     Menu : {screen: FoodListScreen},
     Camera : {screen: CameraScreen},
     Test : {screen: temp},
@@ -28,6 +29,11 @@ const AppNavigator = createBottomTabNavigator({
       },
     }
 );
+
+const AppNavigator = createSwitchNavigator({
+  welcome : {screen:WelcomeScreen},
+  app : {screen:mainApp}
+})
 
 
 export default class App extends Component {

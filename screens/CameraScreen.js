@@ -156,7 +156,7 @@ class CameraScreen extends Component {
 
 
   render() {
-
+    console.log(this.props.navigation.state);
     return (
       //<View style={styles.container}>
       this.renderScreen()
