@@ -36,7 +36,7 @@ class FoodListScreen extends Component {
         this.state = {
 
             foodData: [{
-                engName: 'Hamburger1',
+                engName: 'Sautéed mixed vegetables in oyster sauce',
                 thaiName: 'แฮมเบอร์เกอร์',
                 img: require('../images/img0.jpg')
             }, {
@@ -79,10 +79,12 @@ class FoodListScreen extends Component {
 
     render() {
         return (
+            <View style={{flex:1}}>
             <FoodScrollView data={this.state.foodData}
                 nav={this.props.navigation}
                 style={styles.container}
             />
+            </View>
         )
     }
 }
@@ -126,6 +128,6 @@ export default createStackNavigator({
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white'
+        flex:1
     }
 });

@@ -40,11 +40,14 @@ export default FoodItem
 
 const foodStyles = StyleSheet.create({
     container:{
-        height:150
+        height:150,
+        flex:1,
+        
     }, 
     foodItem: {
         height: 150,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        width:300
     },
     image:{
         width: 150, 
@@ -52,7 +55,8 @@ const foodStyles = StyleSheet.create({
     },
     textContainer: {
         marginLeft:32,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems:'stretch'
     },
     engText:{
         fontSize:20,

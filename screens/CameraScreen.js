@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   View,
   Button,
-  CameraRoll
+  Alert,
+
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { NavigationEvents, createStackNavigator } from 'react-navigation';
@@ -37,6 +38,7 @@ class CameraScreen extends Component {
       },
       menuMode: false
     };
+    
   }
 
   sendToServer(image) {
@@ -75,7 +77,16 @@ class CameraScreen extends Component {
         console.log(res);
         this.props.navigation.navigate('result', { image: image, json: res })
 
-      }).catch((err) => { console.log(err) })
+      }).catch((err) => {
+        Alert.alert(
+          'Error',
+          'Network Error',
+          [
+            {text:'OK', onPress: () => {}}
+          ]
+        );
+        console.log(err);
+      })
 
 
   }
@@ -97,21 +108,18 @@ class CameraScreen extends Component {
       else {
         image = await ImagePicker.openPicker(pickerSetting)
       }
+      ImagePicker.cleanSingle(image.path);
       this.sendToServer(image);
+      
 
 
     } catch (error) {
       console.log(error);
     }
-
-
-
-
-
-
   }
 
   renderScreen() {
+
     {
       const switchOption = [
         { label: "Food Scan", value: false },
@@ -157,7 +165,7 @@ class CameraScreen extends Component {
 
 
   render() {
-    console.log(this.props.navigation.state);
+    //console.log(this.props.navigation.state);
     return (
       //<View style={styles.container}>
       this.renderScreen()

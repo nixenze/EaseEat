@@ -1,39 +1,42 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import FoodListScreen from './screens/FoodListScreen';
 import CameraScreen from './screens/CameraScreen';
 import TestCameraScreen from './screens/TestCameraScreen';
-import {createBottomTabNavigator, createStackNavigator,createSwitchNavigator} from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import CameraResult from './screens/CameraResult';
-import WelcomeScreen from'./screens/WelcomeScreen';
+import WelcomeScreen from './screens/WelcomeScreen';
 
 
 
 
 const temp = createStackNavigator({
-  Test : {screen: CameraResult},
-},{
-  cardStyle: { backgroundColor: 'white' }
-}
+  Test: { screen: CameraResult },
+}, {
+    cardStyle: { backgroundColor: 'white' }
+  }
 )
 
+
 const mainApp = createBottomTabNavigator({
-    Menu : {screen: FoodListScreen},
-    Camera : {screen: CameraScreen},
-    Test : {screen: temp},
+  Menu: { screen: FoodListScreen },
+  Camera: { screen: CameraScreen },
+  Test: { screen: temp },
+},
+  {
+    initialRouteName:"Camera",
+    tabBarOptions: {
+      activeTintColor: 'orange',
+      inactiveTintColor: 'gray',
     },
-    {
-      initialRouteName:'Camera',
-      tabBarOptions: {
-        activeTintColor: 'orange',
-        inactiveTintColor: 'gray',
-      },
-    }
-);
+  }
+)
+
 
 const AppNavigator = createSwitchNavigator({
-  welcome : {screen:WelcomeScreen},
-  app : {screen:mainApp}
-})
+ WelcomeScreen ,
+ mainApp
+  }
+)
 
 
 export default class App extends Component {

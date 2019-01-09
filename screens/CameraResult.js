@@ -37,7 +37,7 @@ class CameraResult extends Component {
         // console.log(imageAttch);
         // var trueImg = null;
         // localDB.getAttachment(id,imageAttch).then((blob) => trueImg = blob)
-        console.log(result._attachments);
+        console.log(result);
 
         tempList = this.state.foodData;
         tempList.push({
@@ -61,7 +61,7 @@ class CameraResult extends Component {
 
 
     return (
-      <View>
+      <View style={styles.container}>
         <ImageBackground source={{uri: base64Uri}}
           style={styles.resultsBanner}
         >
@@ -69,6 +69,7 @@ class CameraResult extends Component {
         </ImageBackground> 
         <ResultList data={this.state.foodData} 
         nav={this.props.navigation}
+        style={{flex:1}}
         />
       </View>
     )
