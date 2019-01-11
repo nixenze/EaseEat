@@ -10,9 +10,10 @@ import {
 
 export class FoodItem extends Component {
     render() {
+        //console.log(this.props.id)
         return (
             <TouchNative
-                onPress={() => { this.props.nav.navigate('foodInfo')}}
+                onPress={() => { this.props.nav.navigate('foodInfo',{id : this.props.id})}}
                 background={Platform.OS === 'android' ? TouchNative.SelectableBackground() : ''}
                 style={foodStyles.container}
             >

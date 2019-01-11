@@ -10,12 +10,10 @@ export default class WelcomeScreen extends Component {
             remoteDB.get('5682c099326de4b161c65d0814061d8d').then((result) => console.log(result));
             localDB.sync(remoteDB, {
                 live: false, retry: true
-            }).on('complete', function (result) { console.log('complete', result); })
-            .on('error', function (err) { console.log('error', err); })
-            .on('change', function (change) { console.log('change', change); })
+            })
             .then(() => {
                     remoteDB.logOut();
-                    localDB.get('5682c099326de4b161c65d0814061d8d').then((result) => console.log(result));
+                    localDB.allDocs().then(res => console.log(res.rows));
                     this.props.navigation.navigate('Camera')
                 })
                 .catch(err => {
@@ -31,6 +29,7 @@ export default class WelcomeScreen extends Component {
                 });
         }
         )
+        
     }
 
     render() {

@@ -13,6 +13,7 @@ import {
 import { createStackNavigator } from 'react-navigation'
 import FoodInfoScreen from './FoodInfoScreen';
 import FoodItem from '../components/FoodItem';
+import { localDB } from '../components/database';
 
 
 
@@ -35,49 +36,44 @@ class FoodListScreen extends Component {
         super(props);
         this.state = {
 
-            foodData: [{
-                engName: 'Sautéed mixed vegetables in oyster sauce',
-                thaiName: 'แฮมเบอร์เกอร์',
-                img: require('../images/img0.jpg')
-            }, {
-                engName: 'Hamburger2',
-                thaiName: 'แฮมเบอร์เกอร์',
-                img: require('../images/img0.jpg')
-            }, {
-                engName: 'Hamburger3',
-                thaiName: 'แฮมเบอร์เกอร์',
-                img: require('../images/img0.jpg')
-            }, {
-                engName: 'Hamburger3',
-                thaiName: 'แฮมเบอร์เกอร์',
-                img: require('../images/img0.jpg')
-            }, {
-                engName: 'Hamburger3',
-                thaiName: 'แฮมเบอร์เกอร์',
-                img: require('../images/img0.jpg')
-            }, {
-                engName: 'Hamburger3',
-                thaiName: 'แฮมเบอร์เกอร์',
-                img: require('../images/img0.jpg')
-            }, {
-                engName: 'Hamburger3',
-                thaiName: 'แฮมเบอร์เกอร์',
-                img: require('../images/img0.jpg')
-            }, {
-                engName: 'Hamburger3',
-                thaiName: 'แฮมเบอร์เกอร์',
-                img: require('../images/img0.jpg')
-            }, {
-                engName: 'Hamburger3',
-                thaiName: 'แฮมเบอร์เกอร์',
-                img: require('../images/img0.jpg')
-            },
+            foodData: [
             ],
         };
+        
+    }
+
+    componentWillMount(){
+        this.loadData();
+    }
+
+    async loadData(){
+        const response = (await localDB.allDocs({include_docs:true}))
+        console.log(response.total_rows);
+        tempList = []
+        response.rows.map(data => {
+            if(data.doc.hasOwnProperty('image'))
+                base64 = {uri : 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString()};
+                //{uri : 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString()}
+            else
+                base64 = null;
+
+            tempList.push({
+                id:data.id,
+                engName:data.doc.English,
+                thaiName:data.doc.Thai,
+                img:base64
+            })
+        })
+        this.setState({
+            foodData:tempList
+        })
     }
 
 
     render() {
+
+       
+
         return (
             <View style={{flex:1}}>
             <FoodScrollView data={this.state.foodData}
@@ -96,6 +92,7 @@ class FoodScrollView extends Component {
             engName={item.engName}
             thaiName={item.thaiName}
             img={item.img}
+            id={item.id}
             nav={this.props.nav}
         />
 
@@ -103,7 +100,7 @@ class FoodScrollView extends Component {
     render() {
         return (
             <FlatList
-                keyExtractor={item => item.engName}
+                keyExtractor={item => item.id}
                 data={this.props.data}
                 ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: 'gainsboro' }} />}
                 renderItem={this.renderItem}

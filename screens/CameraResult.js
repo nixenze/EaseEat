@@ -54,6 +54,7 @@ class CameraResult extends Component {
           console.log(base64.length)
           tempList = this.state.foodData;
           tempList.push({
+            id:result._id,
             engName: result.English,
             thaiName: result.Thai,
             img: {uri:base64}
@@ -121,7 +122,7 @@ class ResultList extends Component {
   render() {
     return (
       <FlatList
-        keyExtractor={item => item.engName}
+        keyExtractor={item => item.id}
         data={this.props.data}
         ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: 'gainsboro' }} />}
         renderItem={this.renderItem}
