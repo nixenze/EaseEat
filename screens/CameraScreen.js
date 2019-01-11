@@ -7,6 +7,8 @@ import {
   View,
   Button,
   Alert,
+  ActivityIndicator,
+  Modal
 
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
@@ -33,15 +35,13 @@ class CameraScreen extends Component {
 
     this.state = {
       focused: null,
-      cameraOption: {
-
-      },
-      menuMode: false
+      menuMode: false,
+      loading: false
     };
-    
+
   }
 
-  sendToServer(image) {
+  async sendToServer(image) {
 
     const sendJson = JSON.stringify(
       {
@@ -63,6 +63,8 @@ class CameraScreen extends Component {
       url = 'http://35.187.232.27:5000/test'
     }
 
+    this.setState({loading:true});
+    
     fetch(url, {
       method: 'post',
       headers: {
@@ -75,6 +77,9 @@ class CameraScreen extends Component {
         return response.json();
       }).then((res) => {
         console.log(res);
+        this.setState({
+          loading: false
+        })
         this.props.navigation.navigate('result', { image: image, json: res })
 
       }).catch((err) => {
@@ -82,11 +87,22 @@ class CameraScreen extends Component {
           'Error',
           'Network Error',
           [
-            {text:'OK', onPress: () => {}}
+            { text: 'OK', onPress: () => { } }
           ]
         );
         console.log(err);
+        this.setState({
+          loading: false
+        })
       })
+
+
+
+
+
+
+
+
 
 
   }
@@ -110,7 +126,7 @@ class CameraScreen extends Component {
       }
       ImagePicker.cleanSingle(image.path);
       this.sendToServer(image);
-      
+
 
 
     } catch (error) {
@@ -158,7 +174,18 @@ class CameraScreen extends Component {
             options={switchOption}
             style={{ margin: 50 }}
           />
-        </View>
+
+          <Modal transparent={true}
+            animationType={'fade'}
+            visible={this.state.loading}
+            onRequestClose={()=>{this.setState({loading:true})}}
+            >
+            <View style={styles.loading}>
+              <ActivityIndicator size='large' />
+              </View>
+            </Modal>
+          
+        </View >
       )
     }
   }
@@ -181,7 +208,7 @@ class CameraScreen extends Component {
 export default createStackNavigator({
   cameraRoot: CameraScreen,
   result: CameraResult,
-  foodInfo:FoodInfoScreen
+  foodInfo: FoodInfoScreen
 
 }, {
     cardStyle: { backgroundColor: 'white' }
@@ -200,6 +227,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center'
+  },
+  loading: {
+    flex:1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor:'rgba(0,0,0,0.3)'
   },
   capture: {
 
