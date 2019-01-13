@@ -27,59 +27,64 @@ class CameraResult extends Component {
       },
       notFound: false
     };
-    
+
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.addData();
   }
 
   addData() {
-    if (this.state.param.json.results.length == 0){
+    if (this.state.param.json.results.length == 0) {
       this.setState({
-        notFound:true
+        notFound: true
       });
       console.log('not found');
     }
     else
       this.state.param.json.results.map(id => {
         localDB.get(id)
-        .then( (result) => {
-          // var imageAttch = Object.keys(result._attachments)[0];
-          // console.log(imageAttch);
-          // var trueImg = null;
-          // localDB.getAttachment(id,imageAttch).then((blob) => trueImg = blob)
-          console.log(result.image.type.toString());
-          let base64 = 'data:' + result.image.type.toString() + ';base64,' + result.image.data.toString()
-          console.log(base64.length)
-          tempList = this.state.foodData;
-          tempList.push({
-            id:result._id,
-            engName: result.English,
-            thaiName: result.Thai,
-            img: {uri:base64}
-          });
-          this.setState({
-            foodData:tempList
-          });
-        })
+          .then((result) => {
+            // var imageAttch = Object.keys(result._attachments)[0];
+            // console.log(imageAttch);
+            // var trueImg = null;
+            // localDB.getAttachment(id,imageAttch).then((blob) => trueImg = blob)
+            // console.log(result.image.type.toString());
+            base64 = {uri:null};
+            if (result.hasOwnProperty('image'))
+              if(result.image.data!='')
+                base64 = { uri: 'data:' + result.image.type + ';base64,' + result.image.data };
+            //{uri : 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString()}
+              
+            console.log(base64.length)
+            tempList = this.state.foodData;
+            tempList.push({
+              id: result._id,
+              engName: result.English,
+              thaiName: result.Thai,
+              img: base64
+            });
+            this.setState({
+              foodData: tempList
+            });
+          })
       });
 
 
   }
 
-  showResult(){
-    if(this.state.notFound)
-    return (
-      <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-        <Text style={{fontWeight:"bold",fontSize:24,color:'rgba(0,0,0,0.2)'}}> Not Found </Text>
-      </View>
-    )
+  showResult() {
+    if (this.state.notFound)
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={{ fontWeight: "bold", fontSize: 24, color: 'rgba(0,0,0,0.2)' }}> Not Found </Text>
+        </View>
+      )
     else return (
       <ResultList data={this.state.foodData}
-      nav={this.props.navigation}
-      style={{ flex: 1 }}
-    />
+        nav={this.props.navigation}
+        style={{ flex: 1 }}
+      />
     )
   }
 

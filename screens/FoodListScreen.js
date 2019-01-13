@@ -50,12 +50,15 @@ class FoodListScreen extends Component {
         const response = (await localDB.allDocs({include_docs:true}))
         console.log(response.total_rows);
         tempList = []
-        response.rows.map(data => {
+        console.log(response);
+
+        response.rows.map(data => { 
+            base64 = {uri:null};
             if(data.doc.hasOwnProperty('image'))
+                if(data.doc.image.data!='')
                 base64 = {uri : 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString()};
                 //{uri : 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString()}
-            else
-                base64 = null;
+              
 
             tempList.push({
                 id:data.id,

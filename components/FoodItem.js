@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component,PureComponent } from 'react'
 import {     
     Text,
     StyleSheet,
@@ -8,9 +8,9 @@ import {
     Platform,
  } from 'react-native'
 
-export class FoodItem extends Component {
+export class FoodItem extends PureComponent {
     render() {
-        //console.log(this.props.id)
+        // console.log(this.props.id,this.props.img)
         return (
             <TouchNative
                 onPress={() => { this.props.nav.navigate('foodInfo',{id : this.props.id})}}
@@ -22,6 +22,7 @@ export class FoodItem extends Component {
                         <Image
                             style={foodStyles.image}
                             source={this.props.img}
+                            defaultSource={require('../images/No_Image_Available.png')}
                         />
                         <View style={foodStyles.textContainer}>
                             <Text style={foodStyles.engText}>{this.props.engName}</Text>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, Image, ScrollView } from 'react-native'
 import SwitchSelector from 'react-native-switch-selector';
+import { localDB, remoteDB } from '../components/database';
 
 export class FoodInfoScreen extends Component {
   static navigationOptions = {
@@ -18,6 +19,11 @@ export class FoodInfoScreen extends Component {
     super(props);
     this.state = {
       param: {
+        thaiName:'',
+        engName:'',
+        image:{uri: ''},
+        allergies: '',
+        spiciness: '',
         detail: '',
         ingredient: '',
         recipe: '',
@@ -25,6 +31,24 @@ export class FoodInfoScreen extends Component {
       textToShow: ''
     }
 
+  }
+
+
+  componentDidMount(){
+    remoteDB.get(this.props.navigation.getParam('id')).then(result => {
+      base64 = {uri:null};
+      if (result.hasOwnProperty('image'))
+        if(result.image.data!='')
+          base64 = { uri: 'data:' + result.image.type + ';base64,' + result.image.data };
+
+     this.setState({
+       thaiName:result.Thai,
+       engName:result.English,
+       image : base64,
+       allergies : result.Allergies,
+       spiciness:result.Spiciness,
+     })     
+    })
   }
 
   
@@ -64,22 +88,23 @@ export class FoodInfoScreen extends Component {
           // alignContent:'center'
         }}>
           <View style={{flex:1, flexDirection:"row"}}>
-            <Image source={require('../images/img0.jpg')}
+            <Image source={this.state.image}
+            defaultSource={require('../images/No_Image_Available.png')}
               style={styles.image}
             />
             <View style={styles.textContainer}>
-              <Text style={styles.engText}>Hamburger</Text>
-              <Text>แฮมเบอร์เกอร์</Text>
+              <Text style={styles.engText}>{this.state.engName}</Text>
+              <Text>{this.state.thaiName}</Text>
             </View>
           </View>
           <View style={{flex:1, flexDirection:"row", marginTop : 40,marginHorizontal:16}}>
             <View style={styles.textContainer}>
               <Text style={styles.engText}>Allergies</Text>
-              <Text>หมู,หมึก,กุ้ง</Text>
+              <Text>{this.state.allergies}</Text>
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.engText}>Spiciness</Text>
-              <Text>High</Text>
+              <Text>{this.state.spiciness}</Text>
             </View>
 
           </View>
