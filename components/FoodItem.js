@@ -9,6 +9,7 @@ import {
  } from 'react-native'
 
 export class FoodItem extends PureComponent {
+
     render() {
         // console.log(this.props.id,this.props.img)
         return (

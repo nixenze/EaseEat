@@ -23,7 +23,7 @@ import { localDB } from '../components/database';
 class FoodListScreen extends Component {
 
     static navigationOptions = {
-        title: 'EaseEat',
+        title: 'All Food Info',
         headerStyle: {
             backgroundColor: 'orange',
         },
@@ -50,10 +50,11 @@ class FoodListScreen extends Component {
         const response = (await localDB.allDocs({include_docs:true}))
         console.log(response.total_rows);
         tempList = []
-        console.log(response);
+        //console.log(response);
 
         response.rows.map(data => { 
             base64 = {uri:null};
+            console.log(data.doc);
             if(data.doc.hasOwnProperty('image'))
                 if(data.doc.image.data!='')
                 base64 = {uri : 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString()};
@@ -107,6 +108,7 @@ class FoodScrollView extends Component {
                 data={this.props.data}
                 ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: 'gainsboro' }} />}
                 renderItem={this.renderItem}
+                removeClippedSubviews={true}
             />
         )
     }

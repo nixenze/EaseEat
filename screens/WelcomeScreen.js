@@ -6,24 +6,16 @@ export default class WelcomeScreen extends Component {
 
     updateDatabase() {
         
-        remoteDB.logIn('ease_eat', 'EeFbyhpK!QP-yQ4&').then(() => {
-
-            //remoteDB.get('5682c099326de4b161c65d0814061d8d').then((result) => console.log(result));
-
-            // pouchdb.replicate(remoteDB,localDB).
-
+        remoteDB.logIn('administrator', 'iAGfms6v').then(() => {
 
             localDB.sync(remoteDB, {
-                live: true, retry: false,checkpoint:false
+                live: false, retry: false
             })
-            //remoteDB.allDocs().then(res=> console.log(res.total_rows));
-            //pouchdb.replicate(remoteDB,localDB)
                 .on('complete', function (result) { console.log('complete', result); })
                 //.on('error', function (err) { console.log('error', err); })
                 .on('change', function (change) { console.log('change', change); })
                 .then(() => {
-                    //remoteDB.logOut();
-                    //localDB.allDocs().then(res => console.log(res.rows));
+                    
                     this.props.navigation.navigate('Camera')
                 }).catch(err => {
                     console.log(err);

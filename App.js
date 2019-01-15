@@ -5,22 +5,14 @@ import TestCameraScreen from './screens/TestCameraScreen';
 import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import CameraResult from './screens/CameraResult';
 import WelcomeScreen from './screens/WelcomeScreen';
+import FoodInfoScreen from './screens/FoodInfoScreen'
 
-
-
-
-const temp = createStackNavigator({
-  Test: { screen: CameraResult },
-}, {
-    cardStyle: { backgroundColor: 'white' }
-  }
-)
 
 
 const mainApp = createBottomTabNavigator({
   Menu: { screen: FoodListScreen },
   Camera: { screen: CameraScreen },
-  Test: { screen: temp },
+  FoodInfoTest: { screen: FoodInfoScreen },
 },
   {
     initialRouteName:"Camera",
