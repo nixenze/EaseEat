@@ -1,23 +1,27 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, Alert } from 'react-native'
+import { Text, StyleSheet, View, Alert, ActivityIndicator } from 'react-native'
 import { remoteDB, localDB } from '../components/database'
 import pouchdb from 'pouchdb-react-native'
+import { loadavg } from 'os';
 export default class WelcomeScreen extends Component {
 
     updateDatabase() {
-        
-        remoteDB.logIn('administrator', 'iAGfms6v').then(() => {
 
-            localDB.sync(remoteDB, {
+
+        remoteDB.logIn('ease_eat', 'EeFbyhpK!QP-yQ4&').then(() => {
+
+            localDB.replicate.from(remoteDB, {
                 live: false, retry: false
             })
                 .on('complete', function (result) { console.log('complete', result); })
                 //.on('error', function (err) { console.log('error', err); })
                 .on('change', function (change) { console.log('change', change); })
+
                 .then(() => {
-                    
                     this.props.navigation.navigate('Camera')
-                }).catch(err => {
+                })
+
+                .catch(err => {
                     console.log(err);
                     Alert.alert(
                         'Sync Error',
@@ -28,19 +32,18 @@ export default class WelcomeScreen extends Component {
                     );
                     this.props.navigation.navigate('Camera');
                 })
-        }
-
-        ).catch(err => {
-            console.log(err);
-            Alert.alert(
-                'No Internet Connection',
-                'Cannot reach the database\nPlease check your internet',
-                [
-                    { text: 'OK', onPress: () => { } }
-                ]
-            );
-            this.props.navigation.navigate('Camera');
-        });
+        })
+            .catch(err => {
+                console.log(err);
+                Alert.alert(
+                    'No Internet Connection',
+                    'Cannot reach the database\nPlease check your internet',
+                    [
+                        { text: 'OK', onPress: () => { } }
+                    ]
+                );
+                this.props.navigation.navigate('Camera');
+            });
 
     }
     componentDidMount() {
@@ -56,7 +59,14 @@ export default class WelcomeScreen extends Component {
 
         return (
             <View style={styles.container}>
-                <Text > WelcomeScreen </Text>
+
+                <View style={styles.logo}>
+                    <Text style={styles.text} > EaseEat </Text>
+                </View>
+                <View style={styles.loading}>
+                    <ActivityIndicator size='large' />
+                    <Text style={styles.subText} > loading... </Text>
+                </View>
             </View>
         )
     }
@@ -65,8 +75,30 @@ export default class WelcomeScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
+        backgroundColor: "orange"
+    },
+    logo: {
+        flex: 4,
+        justifyContent: "flex-end",
         alignItems: "center",
 
-    }
+    },
+    text: {
+        fontWeight: 'bold',
+        fontSize: 36,
+        color: 'white',
+        fontStyle: 'italic'
+    },
+    loading: {
+        flex: 6,
+        justifyContent: 'center',
+        alignItems: "center",
+    },
+    subText: {
+        //fontWeight:'bold',
+        fontSize: 20,
+        color: 'white',
+        fontStyle: 'normal'
+    },
+
 })

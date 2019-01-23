@@ -56,7 +56,7 @@ class CameraResult extends Component {
                 base64 = { uri: 'data:' + result.image.type + ';base64,' + result.image.data };
             //{uri : 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString()}
               
-            console.log(base64.length)
+            //console.log(base64.length
             tempList = this.state.foodData;
             tempList.push({
               id: result._id,
@@ -117,6 +117,7 @@ class CameraResult extends Component {
 class ResultList extends Component {
   renderItem = ({ item }) => {
     return <FoodItem
+      id={item.id}
       engName={item.engName}
       thaiName={item.thaiName}
       img={item.img}

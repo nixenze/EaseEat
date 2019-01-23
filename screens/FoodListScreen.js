@@ -14,6 +14,7 @@ import { createStackNavigator } from 'react-navigation'
 import FoodInfoScreen from './FoodInfoScreen';
 import FoodItem from '../components/FoodItem';
 import { localDB } from '../components/database';
+import { SearchBar } from 'react-native-elements';
 
 
 
@@ -39,51 +40,53 @@ class FoodListScreen extends Component {
             foodData: [
             ],
         };
-        
+
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.loadData();
     }
 
-    async loadData(){
-        const response = (await localDB.allDocs({include_docs:true}))
+    async loadData() {
+        const response = (await localDB.allDocs({ include_docs: true }))
         console.log(response.total_rows);
         tempList = []
         //console.log(response);
 
-        response.rows.map(data => { 
-            base64 = {uri:null};
+        response.rows.map(data => {
+            base64 = { uri: null };
             console.log(data.doc);
-            if(data.doc.hasOwnProperty('image'))
-                if(data.doc.image.data!='')
-                base64 = {uri : 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString()};
-                //{uri : 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString()}
-              
+            if (data.doc.hasOwnProperty('image'))
+                if (data.doc.image.data != '')
+                    base64 = { uri: 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString() };
+            //{uri : 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString()}
+
 
             tempList.push({
-                id:data.id,
-                engName:data.doc.English,
-                thaiName:data.doc.Thai,
-                img:base64
+                id: data.id,
+                engName: data.doc.English,
+                thaiName: data.doc.Thai,
+                img: base64
             })
         })
         this.setState({
-            foodData:tempList
+            foodData: tempList
         })
     }
 
 
     render() {
-
-       
-
         return (
-            <View style={{flex:1}}>
-            <FoodScrollView data={this.state.foodData}
-                nav={this.props.navigation}
-                style={styles.container}
-            />
+            <View style={{ flex: 1 }}>
+                <SearchBar
+                    lightTheme
+                    onChangeText={() => { }}
+                    onClear={() => { }}
+                    placeholder='Search' />
+                <FoodScrollView data={this.state.foodData}
+                    nav={this.props.navigation}
+                    style={styles.container}
+                />
             </View>
         )
     }
@@ -130,6 +133,6 @@ export default createStackNavigator({
 
 const styles = StyleSheet.create({
     container: {
-        flex:1
+        flex: 1
     }
 });

@@ -5,20 +5,49 @@ import TestCameraScreen from './screens/TestCameraScreen';
 import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import CameraResult from './screens/CameraResult';
 import WelcomeScreen from './screens/WelcomeScreen';
-import FoodInfoScreen from './screens/FoodInfoScreen'
+import FoodInfoScreen from './screens/FoodInfoScreen';
+import {Icon} from 'react-native-elements'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import GuideInfoScreen from './screens/GuideInfoScreen'
 
 
 
 const mainApp = createBottomTabNavigator({
-  Menu: { screen: FoodListScreen },
-  Camera: { screen: CameraScreen },
-  FoodInfoTest: { screen: FoodInfoScreen },
+  Menu: FoodListScreen ,
+  Camera: CameraScreen ,
+  Guide:  GuideInfoScreen ,
 },
   {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        //let isReverse = false;
+        let iconName;
+        let iconType;
+        const pressColor = 'orange';
+        if (routeName === 'Camera') {
+          iconName = 'md-qr-scanner';
+
+          iconType = 'ionicon'
+        } else if (routeName === 'Menu') {
+          iconName = 'list';
+
+          iconType = 'entypo'
+        } else if (routeName === 'Guide'){
+          iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+          iconType = 'ionicon'
+        }
+
+        // You can return any component that you like here!
+        return <Icon name={iconName} color={tintColor} size={32} type={iconType} />;
+      },
+    }),
+
+
     initialRouteName:"Camera",
     tabBarOptions: {
       activeTintColor: 'orange',
-      inactiveTintColor: 'gray',
+      inactiveTintColor: 'black',
     },
   }
 )

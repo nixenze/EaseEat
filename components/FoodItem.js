@@ -50,7 +50,7 @@ const foodStyles = StyleSheet.create({
     foodItem: {
         height: 150,
         flexDirection: 'row',
-        width:300
+        //width:300
     },
     image:{
         width: 150, 
@@ -63,6 +63,7 @@ const foodStyles = StyleSheet.create({
     },
     engText:{
         fontSize:20,
+        marginRight:16,
         fontWeight:'bold'
     }
 });

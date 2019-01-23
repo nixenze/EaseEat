@@ -56,11 +56,11 @@ class CameraScreen extends Component {
     // this.props.navigation.navigate('result', { image: image, json: json })
 
 
-    var url = 'http://35.186.151.151:5000/predict'
+    var url = 'http://35.247.156.49:5000/predict'
 
     if (this.state.menuMode) {
 
-      url = 'http://35.187.232.27:5000/test'
+      url = 'http://35.247.156.49:4321/menuRetrieval'
     }
 
     this.setState({loading:true});

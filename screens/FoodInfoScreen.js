@@ -42,8 +42,9 @@ class FoodInfoScreen extends Component {
 
 
   componentDidMount() {
-    localDB.get("5682c099326de4b161c65d081405a092").then(result => {
-      //localDB.get(this.props.navigation.getParam('id')).then(result => {
+    console.log(this.props.navigation.getParam('id'));
+    //localDB.get("5682c099326de4b161c65d081405a092").then(result => {
+    localDB.get(this.props.navigation.getParam('id')).then(result => {
       base64 = { uri: null };
       if (result.hasOwnProperty('image'))
         if (result.image.data != '')
@@ -55,11 +56,12 @@ class FoodInfoScreen extends Component {
           thaiName: result.Thai,
           engName: result.English,
           image: base64,
-          allergen: result.Allergens,
-          spiciness: result.Spiciness,
+          reading: result.hasOwnProperty('Transliteration') ? result.Transliteration : 'No Data',
+          allergen: result.hasOwnProperty('Allergens') ? result.Allergens : 'No Data',
+          spiciness: result.hasOwnProperty('Spiciness') ? result.Spiciness : 'No Data',
           method: this.renderRecipe(result.Method),
           detail: tempData,
-          ingredients: null
+          ingredients: this.renderIngredients(result)
         },
         dataToShow: tempData
       })
@@ -67,24 +69,29 @@ class FoodInfoScreen extends Component {
   }
 
   renderDetail(object, base64) {
-    const text = '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."'
+    let text
+    if (object.hasOwnProperty('About'))
+      text = object.About
+    else
+      text = '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."'
+    let calories = object.hasOwnProperty('Calories') ? object.Calories : 'No Data';
     return (
 
       <ScrollView>
         <View style={{ flex: 1, marginHorizontal: 24 }}>
           <Image
-            style={{ flex: 1,width:320,height:240,alignSelf:'center' }}
+            style={{ flex: 1, width: 320, height: 240, alignSelf: 'center' }}
             resizeMode='cover'
             source={base64}
             defaultSource={require('../images/No_Image_Available.png')} />
           <View style={{ flex: 1 }}>
             <View margin={16}>
-              <Text style={{fontWeight:'bold'}}>Calories (per serving):</Text>
-              <Text>{'      ' + object.Calories}</Text>
+              <Text style={{ fontWeight: 'bold' }}>Calories (per serving):</Text>
+              <Text>{'\t\t' + calories}</Text>
             </View>
             <View margin={16}>
-              <Text style={{fontWeight:'bold'}}>About:</Text>
-              <Text>{'      ' + text}</Text>
+              <Text style={{ fontWeight: 'bold' }}>About:</Text>
+              <Text>{'\t\t' + text}</Text>
             </View>
           </View>
 
@@ -94,8 +101,40 @@ class FoodInfoScreen extends Component {
     )
   }
 
-  renderIngredients(obj) {
+  renderIngredients(object) {
+    const arrayText = [];
+    if (object.hasOwnProperty('Ingredients')) {
+      const keys = Object.keys(object.Ingredients);
+      keys.map(head => {
+        arrayText.push(<Text key={head}>{head + '   :   ' + object.Ingredients[head].join(' ')}</Text>);
+      });
+      return (
+      <ScrollView >
+        <View style={{ marginHorizontal: 24 }}>
+          {arrayText}
+        </View>
+      </ScrollView>
+      )
+    }
+    else {
+      return (
+        <View style={{
+          marginHorizontal: 16,
+          justifyContent: 'center',
+          alignItems: 'center',
+          flex: 1
+        }}>
+          <Text
+            style={{
+              fontSize: 24,
+              opacity: 0.3
+            }}
+          >No Data
+          </Text>
+        </View>
 
+      )
+    }
   }
 
   renderRecipe(object) {
@@ -104,7 +143,7 @@ class FoodInfoScreen extends Component {
     for (var key in object) {
       if (object.hasOwnProperty(key)) {
         const element = object[key];
-        array.push(<Text key={key} style={{ marginVertical: 8,fontSize:14 }}>{(++key) + '. ' + element}</Text>)
+        array.push(<Text key={key} style={{ marginVertical: 8, fontSize: 14 }}>{(++key) + '. ' + element}</Text>)
       }
     }
     if (array.length == 0)
@@ -121,7 +160,7 @@ class FoodInfoScreen extends Component {
               opacity: 0.3
             }}
           >No Data
-      </Text>
+          </Text>
         </View>
 
       )
@@ -174,7 +213,9 @@ class FoodInfoScreen extends Component {
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.engText}>{this.state.param.engName}</Text>
+            <Text style={{ fontSize:18, fontWeight: 'bold', fontStyle: 'italic' }}>{this.state.param.reading}</Text>
             <Text>{this.state.param.thaiName}</Text>
+
           </View>
         </View>
 
@@ -183,11 +224,11 @@ class FoodInfoScreen extends Component {
         <View style={{ flex: 3, flexDirection: "row", marginLeft: 24 }}>
 
           <View style={styles.textContainer2}>
-            <Text style={styles.engText}>Allergens</Text>
+            <Text style={styles.engInfoHead}>Allergens</Text>
             <Text>{this.state.param.allergen}</Text>
           </View>
           <View style={styles.textContainer2}>
-            <Text style={styles.engText}>Spiciness</Text>
+            <Text style={styles.engInfoHead}>Spiciness</Text>
             <Text>{this.state.param.spiciness}</Text>
           </View>
 
@@ -232,6 +273,7 @@ class FoodInfoScreen extends Component {
 
     return (
       <View style={{ flex: 1 }}>
+
         {this.renderTopView()}
         {this.renderButtomView()}
 
@@ -240,12 +282,13 @@ class FoodInfoScreen extends Component {
   }
 }
 
-export default createStackNavigator({
-  FoodInfo: { screen: FoodInfoScreen },
-}, {
-    cardStyle: { backgroundColor: 'white' }
-  }
-)
+export default FoodInfoScreen
+// createStackNavigator({
+//   FoodInfo: { screen: FoodInfoScreen },
+// }, {
+//     cardStyle: { backgroundColor: 'white' }
+//   }
+// )
 
 const styles = StyleSheet.create({
   image: {
@@ -272,7 +315,14 @@ const styles = StyleSheet.create({
     //flexDirection:'column'
   },
   engText: {
-    fontSize: 20,
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginRight:16
+  },
+  engInfoHead: {
+    fontSize: 23,
     fontWeight: 'bold'
-  }
+  },
+  
+
 })
