@@ -65,7 +65,7 @@ export default class WelcomeScreen extends Component {
                 </View>
                 <View style={styles.loading}>
                     <ActivityIndicator size='large' />
-                    <Text style={styles.subText} > loading... </Text>
+                    <Text style={styles.subText} > Syncing in progress... </Text>
                 </View>
             </View>
         )

@@ -19,7 +19,7 @@ import { SearchBar } from 'react-native-elements';
 
 
 
-
+const foodCompList = []
 
 class FoodListScreen extends Component {
 
@@ -48,29 +48,57 @@ class FoodListScreen extends Component {
     }
 
     async loadData() {
-        const response = (await localDB.allDocs({ include_docs: true }))
-        console.log(response.total_rows);
-        tempList = []
-        //console.log(response);
+        try {
+            const response = (await localDB.allDocs({ include_docs: true }))
+            console.log(response.total_rows);
 
-        response.rows.map(data => {
-            base64 = { uri: null };
-            console.log(data.doc);
-            if (data.doc.hasOwnProperty('image'))
-                if (data.doc.image.data != '')
-                    base64 = { uri: 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString() };
-            //{uri : 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString()}
+            //console.log(response);
+
+            response.rows.map(data => {
+                base64 = { uri: null };
+                //console.log(data.doc);
+                if (data.doc.hasOwnProperty('image'))
+                    if (data.doc.image.data != '')
+                        base64 = { uri: 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString() };
+                //{uri : 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString()}
 
 
-            tempList.push({
-                id: data.id,
-                engName: data.doc.English,
-                thaiName: data.doc.Thai,
-                img: base64
+                foodCompList.push({
+                    id: data.id,
+                    engName: data.doc.English,
+                    thaiName: data.doc.Thai,
+                    img: base64
+                })
             })
-        })
+
+            this.setState({
+                foodData: foodCompList
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
+    // upperText(text) {
+    //     return text.trim();
+    // }
+
+    searchFunc (textSearch) {
+        const newData = foodCompList.filter(item => {
+    
+            const itemData = `${item.engName} ${item.thaiName}`;
+            const upper = itemData.toUpperCase()
+            const textData = textSearch.toUpperCase();
+
+            return upper.indexOf(textData) > -1;
+        });
+        this.setState({ foodData: newData });
+    }
+    onClearSearchFunc() {
         this.setState({
-            foodData: tempList
+            foodData: foodCompList
         })
     }
 
@@ -80,8 +108,8 @@ class FoodListScreen extends Component {
             <View style={{ flex: 1 }}>
                 <SearchBar
                     lightTheme
-                    onChangeText={() => { }}
-                    onClear={() => { }}
+                    onChangeText={this.searchFunc.bind(this)}
+                    onClear={this.onClearSearchFunc.bind(this)}
                     placeholder='Search' />
                 <FoodScrollView data={this.state.foodData}
                     nav={this.props.navigation}
