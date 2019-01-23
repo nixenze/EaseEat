@@ -56,7 +56,7 @@ class FoodInfoScreen extends Component {
           thaiName: result.Thai,
           engName: result.English,
           image: base64,
-          reading: result.hasOwnProperty('Transliteration') ? result.Transliteration : 'No Data',
+          reading: result.hasOwnProperty('Transliteration') ? result.Transliteration : 'No Pronunciation Data',
           allergen: result.hasOwnProperty('Allergens') ? result.Allergens : 'No Data',
           spiciness: result.hasOwnProperty('Spiciness') ? result.Spiciness : 'No Data',
           method: this.renderRecipe(result.Method),

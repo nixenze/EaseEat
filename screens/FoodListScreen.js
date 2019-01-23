@@ -9,6 +9,7 @@ import {
     TouchableNativeFeedback as TouchNative,
     Platform,
     FlatList,
+    ActivityIndicator
 } from 'react-native'
 import { createStackNavigator } from 'react-navigation'
 import FoodInfoScreen from './FoodInfoScreen';
@@ -39,6 +40,7 @@ class FoodListScreen extends Component {
 
             foodData: [
             ],
+            loading: true
         };
 
     }
@@ -72,7 +74,8 @@ class FoodListScreen extends Component {
             })
 
             this.setState({
-                foodData: foodCompList
+                foodData: foodCompList,
+                loading: false
             })
 
         } catch (error) {
@@ -85,9 +88,9 @@ class FoodListScreen extends Component {
     //     return text.trim();
     // }
 
-    searchFunc (textSearch) {
+    searchFunc(textSearch) {
         const newData = foodCompList.filter(item => {
-    
+
             const itemData = `${item.engName} ${item.thaiName}`;
             const upper = itemData.toUpperCase()
             const textData = textSearch.toUpperCase();
@@ -102,8 +105,14 @@ class FoodListScreen extends Component {
         })
     }
 
-
-    render() {
+    renderScreen() {
+        if (this.state.loading)
+            return (
+                <View style={{ flex: 1, justifyContent:'center', alignItems:'center' }}>
+                    <ActivityIndicator size='large'/>
+                    <Text style= {{opacity:0.3}}>loading...</Text>
+                </View>
+            )
         return (
             <View style={{ flex: 1 }}>
                 <SearchBar
@@ -116,6 +125,11 @@ class FoodListScreen extends Component {
                     style={styles.container}
                 />
             </View>
+        )
+    }
+    render() {
+        return (
+            this.renderScreen()
         )
     }
 }
