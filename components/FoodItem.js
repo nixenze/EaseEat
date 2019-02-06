@@ -23,7 +23,6 @@ export class FoodItem extends PureComponent {
                         <Image
                             style={foodStyles.image}
                             source={this.props.img}
-                            defaultSource={require('../images/No_Image_Available.png')}
                         />
                         <View style={foodStyles.textContainer}>
                             <Text style={foodStyles.engText}>{this.props.engName}</Text>
