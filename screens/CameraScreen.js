@@ -115,15 +115,18 @@ class CameraScreen extends Component {
       height: 600,
       includeBase64: true,
       cropping: true,
-      hideButtomControl: true
+      hideButtomControl: true,
+      avoidEmptySpaceAroundImage:false
     }
     try {
+
       if (mode === 'camera') {
         image = await ImagePicker.openCamera(pickerSetting)
       }
       else {
         image = await ImagePicker.openPicker(pickerSetting)
       }
+
       ImagePicker.cleanSingle(image.path);
       this.sendToServer(image);
 
