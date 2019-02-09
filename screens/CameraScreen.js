@@ -26,8 +26,9 @@ class CameraScreen extends Component {
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
-      fontWeight: 'bold',
-    }
+      fontFamily: 'Pacifico'
+    },
+
   };
 
   constructor(props) {
@@ -254,6 +255,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    padding: 5
+    padding: 5,
   }
 });

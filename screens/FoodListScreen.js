@@ -73,6 +73,8 @@ class FoodListScreen extends Component {
                 })
             })
 
+            foodCompList.pop()
+
             this.setState({
                 foodData: foodCompList,
                 loading: false
