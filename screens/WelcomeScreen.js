@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, Alert, ActivityIndicator } from 'react-native'
+import { Text, StyleSheet, View, Alert, ActivityIndicator, Image } from 'react-native'
 import { remoteDB, localDB } from '../components/database'
 import pouchdb from 'pouchdb-react-native'
 import { loadavg } from 'os';
@@ -61,7 +61,9 @@ export default class WelcomeScreen extends Component {
             <View style={styles.container}>
 
                 <View style={styles.logo}>
-                    <Text style={styles.text} > EaseEat </Text>
+                    <Image source={require('../images/Logo-EaseEat-final.png')}
+                            style={{width: 256, height: 256}}
+                    />
                 </View>
                 <View style={styles.loading}>
                     <ActivityIndicator size='large' />
@@ -75,11 +77,11 @@ export default class WelcomeScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "orange"
+        backgroundColor: "#e9893f"
     },
     logo: {
-        flex: 4,
-        justifyContent: "flex-end",
+        flex: 7,
+        justifyContent: "center",
         alignItems: "center",
 
     },
@@ -90,7 +92,7 @@ const styles = StyleSheet.create({
         fontStyle: 'italic'
     },
     loading: {
-        flex: 6,
+        flex: 3,
         justifyContent: 'center',
         alignItems: "center",
     },

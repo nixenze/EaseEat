@@ -18,21 +18,19 @@ export class FoodItem extends PureComponent {
                 background={Platform.OS === 'android' ? TouchNative.SelectableBackground() : ''}
                 style={foodStyles.container}
             >
-                <View>
-                    <View style={foodStyles.foodItem}>
-                        <Image
-                            style={foodStyles.image}
-                            source={this.props.img}
-                        />
-                        <View style={foodStyles.textContainer}>
-                            <Text style={foodStyles.engText}>{this.props.engName}</Text>
-                            <Text>{this.props.thaiName}</Text>
-                        </View>
+
+                <View style={foodStyles.foodItem}>
+                    <Image
+                        style={foodStyles.image}
+                        source={this.props.img}
+                    />
+                    <View style={foodStyles.textContainer}>
+                        <Text style={foodStyles.engText}>{this.props.engName}</Text>
+                        <Text>{this.props.thaiName}</Text>
+                    </View>
 
 
                     </View>
-
-                </View>
             </TouchNative>
         )
     }
@@ -50,6 +48,7 @@ const foodStyles = StyleSheet.create({
         height: 150,
         flexDirection: 'row',
         //width:300
+        flex:1
     },
     image:{
         width: 150, 
@@ -58,11 +57,15 @@ const foodStyles = StyleSheet.create({
     textContainer: {
         marginLeft:32,
         justifyContent: 'center',
-        alignItems:'stretch'
+        alignItems:'stretch',
+        width: 0,
+        flexGrow: 1,
+        flex: 1,
     },
     engText:{
         fontSize:20,
         marginRight:16,
-        fontWeight:'bold'
+        fontWeight:'bold',
+        flexWrap: 'wrap'
     }
 });

@@ -115,8 +115,10 @@ class CameraScreen extends Component {
       height: 600,
       includeBase64: true,
       cropping: true,
-      hideButtomControl: true,
-      avoidEmptySpaceAroundImage:false
+      hideBottomControls : false,
+      avoidEmptySpaceAroundImage :false,
+      showCropGuidelines : false,
+
     }
     try {
 
