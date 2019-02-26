@@ -17,6 +17,7 @@ import CameraResult from './CameraResult';
 import SwitchSelector from 'react-native-switch-selector';
 import ImagePicker from 'react-native-image-crop-picker';
 import FoodInfoScreen from './FoodInfoScreen';
+import Tts from 'react-native-tts';
 
 class CameraScreen extends Component {
   static navigationOptions = {
@@ -179,6 +180,17 @@ class CameraScreen extends Component {
             hasPadding
             options={switchOption}
             style={{ margin: 50 }}
+          />
+
+          <Button 
+            onPress={() => {Tts.getInitStatus().then(() => {
+              Tts.speak('Hello, world!');
+            },(err) => {
+              if (err.code === 'no_engine') {
+                Tts.requestInstallEngine();
+              }
+            });}}
+            title='press me to talk!'
           />
 
           <Modal transparent={true}
