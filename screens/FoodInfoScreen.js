@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Image, ScrollView } from 'react-native'
+import { Text, View, StyleSheet, Image, ScrollView, Button } from 'react-native'
 import SwitchSelector from 'react-native-switch-selector';
 import { localDB, remoteDB } from '../components/database';
 import { createStackNavigator } from 'react-navigation';
-
+import Tts from 'react-native-tts';
 
 
 
@@ -42,6 +42,9 @@ class FoodInfoScreen extends Component {
 
 
   componentDidMount() {
+
+    Tts.setDefaultLanguage('th');
+
     console.log(this.props.navigation.getParam('id'));
     //localDB.get("5682c099326de4b161c65d081405a092").then(result => {
     localDB.get(this.props.navigation.getParam('id')).then(result => {
@@ -231,6 +234,22 @@ class FoodInfoScreen extends Component {
             <Text style={styles.engInfoHead}>Spiciness</Text>
             <Text>{this.state.param.spiciness}</Text>
           </View>
+          <View style={{flex:1}}>
+              <Button
+                title="Pronouce!"
+                onPress= {() => {
+                  Tts.getInitStatus().then(() => {
+                    Tts.stop();
+                    Tts.speak(this.state.param.thaiName);
+                  }, (err) => {
+                    if (err.code === 'no_engine') {
+                      Tts.requestInstallEngine();
+                    }
+                  });
+                }}
+                
+              />
+            </View>
 
         </View>
 
@@ -308,7 +327,7 @@ const styles = StyleSheet.create({
     //flexDirection:'column'
   },
   textContainer2: {
-    flex: 0.6,
+    flex: 1,
     //height: 150,
     //justifyContent: 'center',
     //alignItems:'center'
