@@ -3,6 +3,8 @@ package com.easeeat;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import org.wonday.pdf.RCTPdfView;
 import net.no_mad.tts.TextToSpeechPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.tradle.react.UdpSocketsModule;
@@ -34,6 +36,8 @@ public class MainApplication extends Application implements ReactApplication {
 
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFetchBlobPackage(),
+            new RCTPdfView(),
             new TextToSpeechPackage(),
             new VectorIconsPackage(),
             new UdpSocketsModule(),
