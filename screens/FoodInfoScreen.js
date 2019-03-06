@@ -235,17 +235,9 @@ class FoodInfoScreen extends Component {
             <Text style={styles.engInfoHead}>Spiciness</Text>
             <Text>{this.state.param.spiciness}</Text>
           </View>
-          <View style={{
-            //flex:1,
-            justifyContent:'center',
-            alignItems:"flex-start",
-            backgroundColor:'orange',
-            borderRadius:60,
-            width:60,
-            height:60
-          }}>
+          <View style={styles.textContainer2}>
               <Icon
-                name='volume-up'
+                name='record-voice-over'
                 type="antdesign"
                 size={50}
                 onPress= {() => {
