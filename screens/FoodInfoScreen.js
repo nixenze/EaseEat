@@ -4,6 +4,7 @@ import SwitchSelector from 'react-native-switch-selector';
 import { localDB, remoteDB } from '../components/database';
 import { createStackNavigator } from 'react-navigation';
 import Tts from 'react-native-tts';
+import { Icon } from 'react-native-elements'
 
 
 
@@ -45,7 +46,7 @@ class FoodInfoScreen extends Component {
 
     Tts.setDefaultLanguage('th');
 
-    console.log(this.props.navigation.getParam('id'));
+    //console.log(this.props.navigation.getParam('id'));
     //localDB.get("5682c099326de4b161c65d081405a092").then(result => {
     localDB.get(this.props.navigation.getParam('id')).then(result => {
       base64 = { uri: null };
@@ -234,9 +235,19 @@ class FoodInfoScreen extends Component {
             <Text style={styles.engInfoHead}>Spiciness</Text>
             <Text>{this.state.param.spiciness}</Text>
           </View>
-          <View style={{flex:1}}>
-              <Button
-                title="Pronouce!"
+          <View style={{
+            //flex:1,
+            justifyContent:'center',
+            alignItems:"flex-start",
+            backgroundColor:'orange',
+            borderRadius:60,
+            width:60,
+            height:60
+          }}>
+              <Icon
+                name='volume-up'
+                type="antdesign"
+                size={50}
                 onPress= {() => {
                   Tts.getInitStatus().then(() => {
                     Tts.stop();
@@ -327,7 +338,9 @@ const styles = StyleSheet.create({
     //flexDirection:'column'
   },
   textContainer2: {
-    flex: 1,
+    flex:1,
+    justifyContent:"center",
+    //alignItems:"center"
     //height: 150,
     //justifyContent: 'center',
     //alignItems:'center'

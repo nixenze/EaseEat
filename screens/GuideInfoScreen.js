@@ -1,14 +1,32 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, Dimensions } from 'react-native'
 import Pdf from 'react-native-pdf';
+import { withNavigationFocus, createStackNavigator } from 'react-navigation';
 
 export class GuideInfoScreen extends Component {
-    
+
+  static navigationOptions = {
+    title: 'Eating Guide',
+    headerStyle: {
+      backgroundColor: 'orange',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontFamily: 'Pacifico'
+    },
+
+  };
+
+
+
+  
   render() {
 
-    const source = {uri:'http://samples.leanpub.com/thereactnativebook-sample.pdf',cache:true};
+    
+    const source = {uri:"bundle-assets://restaurant.pdf",cache:true};
 
     return (
+      this.props.isFocused ? 
         <View style={{
             // marginHorizontal: 16,
             justifyContent: 'center',
@@ -24,6 +42,7 @@ export class GuideInfoScreen extends Component {
             </Text> */}
             <Pdf
                     source={source}
+                    fitPolicy={0}
                     onLoadComplete={(numberOfPages,filePath)=>{
                         console.log(`number of pages: ${numberOfPages}`);
                     }}
@@ -35,6 +54,7 @@ export class GuideInfoScreen extends Component {
                     }}
                     style={styles.pdf}/>
           </View>
+          : null
     )
   }
 }
@@ -52,4 +72,9 @@ const styles = StyleSheet.create({
   }
 });
 
-export default GuideInfoScreen
+export default createStackNavigator({
+  guideRoot :  withNavigationFocus(GuideInfoScreen), 
+}, {
+  cardStyle: { backgroundColor: 'white' }
+}
+)
