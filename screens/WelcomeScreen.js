@@ -18,7 +18,9 @@ export default class WelcomeScreen extends Component {
                 .on('change', function (change) { console.log('change', change); })
 
                 .then(() => {
-                    this.props.navigation.navigate('Camera')
+
+
+                    this.props.navigation.navigate('Scan')
                 })
 
                 .catch(err => {
@@ -30,7 +32,7 @@ export default class WelcomeScreen extends Component {
                             { text: 'OK', onPress: () => { } }
                         ]
                     );
-                    this.props.navigation.navigate('Camera');
+                    this.props.navigation.navigate('Scan');
                 })
         })
             .catch(err => {
@@ -42,7 +44,7 @@ export default class WelcomeScreen extends Component {
                         { text: 'OK', onPress: () => { } }
                     ]
                 );
-                this.props.navigation.navigate('Camera');
+                this.props.navigation.navigate('Scan');
             });
 
     }

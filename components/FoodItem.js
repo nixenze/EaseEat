@@ -58,8 +58,6 @@ const foodStyles = StyleSheet.create({
         marginLeft:32,
         justifyContent: 'center',
         alignItems:'stretch',
-        width: 0,
-        flexGrow: 1,
         flex: 1,
     },
     engText:{

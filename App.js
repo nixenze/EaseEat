@@ -14,7 +14,7 @@ import GuideInfoScreen from './screens/GuideInfoScreen'
 
 const mainApp = createBottomTabNavigator({
   Menu: FoodListScreen ,
-  Camera: CameraScreen ,
+  Scan: CameraScreen ,
   Guide:  GuideInfoScreen ,
 },
   {
@@ -25,7 +25,7 @@ const mainApp = createBottomTabNavigator({
         let iconName;
         let iconType;
         const pressColor = 'orange';
-        if (routeName === 'Camera') {
+        if (routeName === 'Scan') {
           iconName = 'md-qr-scanner';
 
           iconType = 'ionicon'
@@ -44,7 +44,7 @@ const mainApp = createBottomTabNavigator({
     }),
 
 
-    initialRouteName:"Camera",
+    initialRouteName:"Scan",
     tabBarOptions: {
       activeTintColor: 'orange',
       inactiveTintColor: 'black',

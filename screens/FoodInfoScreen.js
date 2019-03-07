@@ -8,6 +8,7 @@ import { Icon } from 'react-native-elements'
 
 
 
+
 class FoodInfoScreen extends Component {
   static navigationOptions = {
     title: 'Food Info',
@@ -211,13 +212,17 @@ class FoodInfoScreen extends Component {
         <View style={{ flex: 7, flexDirection: "row", justifyContent: 'flex-start' }}>
           <View style={{ flex: 0.4, justifyContent: 'center', alignItems: 'center' }}>
             <Image source={this.state.param.image}
-              defaultSource={require('../images/No_Image_Available.png')}
+              //defaultSource={require('../images/No_Image_Available.png')}
               style={styles.image}
             />
           </View>
           <View style={styles.textContainer}>
-            <Text style={styles.engText}>{this.state.param.engName}</Text>
-            <Text style={{ fontSize:18, fontWeight: 'bold', fontStyle: 'italic' }}>{this.state.param.reading}</Text>
+            <Text style={styles.engText}
+                // numberOfLines = {2}
+                // ellipsizeMode = 'tail'
+                //adjustsFontSizeToFit={true}
+            >{this.state.param.engName}</Text>
+            <Text style={{ fontSize:14, fontWeight: 'bold', fontStyle: 'italic', color:'grey'}}>{this.state.param.reading}</Text>
             <Text>{this.state.param.thaiName}</Text>
 
           </View>
@@ -235,7 +240,11 @@ class FoodInfoScreen extends Component {
             <Text style={styles.engInfoHead}>Spiciness</Text>
             <Text>{this.state.param.spiciness}</Text>
           </View>
-          <View style={styles.textContainer2}>
+          <View style={{
+            flex:1,
+            justifyContent:"center",
+            alignItems:"center"
+          }}>
               <Icon
                 name='record-voice-over'
                 type="antdesign"
@@ -250,8 +259,8 @@ class FoodInfoScreen extends Component {
                     }
                   });
                 }}
-                
               />
+              <Text>Tap for Sound!</Text>
             </View>
 
         </View>
@@ -326,6 +335,7 @@ const styles = StyleSheet.create({
     flex: 0.6,
     marginLeft: 8,
     justifyContent: 'center',
+    //flexWrap:"wrap"
     //alignItems:'center'
     //flexDirection:'column'
   },
@@ -341,7 +351,8 @@ const styles = StyleSheet.create({
   engText: {
     fontSize: 28,
     fontWeight: 'bold',
-    marginRight:16
+    marginRight:16,
+
   },
   engInfoHead: {
     fontSize: 23,
