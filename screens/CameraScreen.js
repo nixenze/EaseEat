@@ -8,7 +8,12 @@ import {
   Button,
   Alert,
   ActivityIndicator,
-  Modal
+  Modal,
+  TouchableNativeFeedback as TouchNative,
+  Image,
+  ImageBackground,
+  Platform,
+  Dimensions
 
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
@@ -17,6 +22,7 @@ import CameraResult from './CameraResult';
 import SwitchSelector from 'react-native-switch-selector';
 import ImagePicker from 'react-native-image-crop-picker';
 import FoodInfoScreen from './FoodInfoScreen';
+import Overlay from 'react-native-elements'
 
 
 class CameraScreen extends Component {
@@ -38,7 +44,8 @@ class CameraScreen extends Component {
     this.state = {
       focused: null,
       menuMode: false,
-      loading: false
+      loading: false,
+      isVisible:false
     };
 
   }
@@ -150,50 +157,105 @@ class CameraScreen extends Component {
       ]
 
       return (
-        <View style={{
-          flex: 1,
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 50,
-          marginBottom: 50
-        }}>
-          <TouchableOpacity
-            onPress={() => this.getImage('camera')}
-            style={styles.capture}
-          >
-            <Text style={styles.fontStyle}>Take Photo</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.getImage('gallery')}
-            style={styles.capture}
-          >
-            <Text style={styles.fontStyle}>Pick From Gallery</Text>
-          </TouchableOpacity>
-          <SwitchSelector
-            initial={0}
-            onPress={value => this.setState({ menuMode: value })}
-            textColor={'orange'} //'#7a44cf'
-            selectedColor={'white'}
-            buttonColor={'orange'}
-            borderColor={'orange'}
-            hasPadding
-            options={switchOption}
-            style={{ margin: 50 }}
-          />
 
-          <Modal transparent={true}
-            animationType={'fade'}
-            visible={this.state.loading}
-            onRequestClose={()=>{this.setState({loading:true})}}
+        <View style={{
+          flex:1
+        }}>
+          <TouchNative
+          background={Platform.OS === 'android' ? TouchNative.SelectableBackground() : ''}
+          useForeground={true}
+          onPress={() => {
+            this.setState({menuMode:false,
+            isVisible:true});
+            
+          }}
+          style ={{flex:1}}
+          >
+            <View style={{flex:1}}>
+            <Image
+              style={{
+                height:Dimensions.get('window').height/2,
+                width:Dimensions.get('window').width,
+              }}
+              source={require("../images/foodScan.jpg")}
             >
-            <View style={styles.loading}>
-              <ActivityIndicator size='large' />
-              </View>
-            </Modal>
+            </Image>
+            </View>
+
+          </TouchNative>
+
+          <TouchNative
+          background={Platform.OS === 'android' ? TouchNative.SelectableBackground() : ''}
+          useForeground={true}
+          onPress={() => {
+            this.setState({menuMode:true});
+            
+          }}
+          style ={{flex:1}}
+          >
+            <View style={{flex:1}}>
+            <Image
+                          style={{
+                            height:Dimensions.get('window').height/2,
+                            width:Dimensions.get('window').width,
+                          }}
+              source={require("../images/menuScan.jpg")}
+            />
+            </View>
+          </TouchNative>
+
+
           
-        </View >
+
+        </View>
       )
+
+        // previous homescreen
+        //
+        // <View style={{
+        //   flex: 1,
+        //   flexDirection: 'column',
+        //   justifyContent: 'center',
+        //   alignItems: 'center',
+        //   marginTop: 50,
+        //   marginBottom: 50
+        // }}>
+        //   <TouchableOpacity
+        //     onPress={() => this.getImage('camera')}
+        //     style={styles.capture}
+        //   >
+        //     <Text style={styles.fontStyle}>Take Photo</Text>
+        //   </TouchableOpacity>
+        //   <TouchableOpacity
+        //     onPress={() => this.getImage('gallery')}
+        //     style={styles.capture}
+        //   >
+        //     <Text style={styles.fontStyle}>Pick From Gallery</Text>
+        //   </TouchableOpacity>
+        //   <SwitchSelector
+        //     initial={0}
+        //     onPress={value => this.setState({ menuMode: value })}
+        //     textColor={'orange'} //'#7a44cf'
+        //     selectedColor={'white'}
+        //     buttonColor={'orange'}
+        //     borderColor={'orange'}
+        //     hasPadding
+        //     options={switchOption}
+        //     style={{ margin: 50 }}
+        //   />
+
+        //   <Modal transparent={true}
+        //     animationType={'fade'}
+        //     visible={this.state.loading}
+        //     onRequestClose={()=>{this.setState({loading:true})}}
+        //     >
+        //     <View style={styles.loading}>
+        //       <ActivityIndicator size='large' />
+        //       </View>
+        //     </Modal>
+          
+        // </View >
+      
     }
   }
 

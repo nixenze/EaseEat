@@ -16,6 +16,7 @@ export class FoodItem extends PureComponent {
             <TouchNative
                 onPress={() => { this.props.nav.navigate('foodInfo',{id : this.props.id})}}
                 background={Platform.OS === 'android' ? TouchNative.SelectableBackground() : ''}
+                //useForeground={true}
                 style={foodStyles.container}
             >
 
