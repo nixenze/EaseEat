@@ -40,7 +40,8 @@ class FoodListScreen extends Component {
 
             foodData: [
             ],
-            loading: true
+            loading: true,
+            textSearch:''
         };
 
     }
@@ -99,7 +100,7 @@ class FoodListScreen extends Component {
 
             return upper.indexOf(textData) > -1;
         });
-        this.setState({ foodData: newData });
+        this.setState({ foodData: newData, textSearch:textSearch });
     }
     onClearSearchFunc() {
         this.setState({
@@ -118,10 +119,13 @@ class FoodListScreen extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <SearchBar
-                    lightTheme
+                    platform="ios"
+                    
                     onChangeText={this.searchFunc.bind(this)}
                     onClear={this.onClearSearchFunc.bind(this)}
-                    placeholder='Search' />
+                    placeholder='Search'
+                    value={this.state.textSearch}
+                    />
                 <FoodScrollView data={this.state.foodData}
                     nav={this.props.navigation}
                     style={styles.container}

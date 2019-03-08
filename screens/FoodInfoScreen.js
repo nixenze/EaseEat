@@ -247,7 +247,7 @@ class FoodInfoScreen extends Component {
           }}>
               <Icon
                 name='record-voice-over'
-                type="antdesign"
+                type="material"
                 size={50}
                 onPress= {() => {
                   Tts.getInitStatus().then(() => {
