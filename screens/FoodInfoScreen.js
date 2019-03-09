@@ -206,6 +206,7 @@ class FoodInfoScreen extends Component {
         flex: 4,
         // justifyContent:'center',
         // alignContent:'center'
+        
       }}>
 
 
@@ -243,12 +244,15 @@ class FoodInfoScreen extends Component {
           <View style={{
             flex:1,
             justifyContent:"center",
-            alignItems:"center"
+            //alignItems:"center",
+            //borderWidth:4,
+            
           }}>
               <Icon
                 name='record-voice-over'
                 type="material"
                 size={50}
+                containerStyle={{alignItems:"flex-start",paddingHorizontal:20}}
                 onPress= {() => {
                   Tts.getInitStatus().then(() => {
                     Tts.stop();
@@ -329,6 +333,8 @@ const styles = StyleSheet.create({
 
     borderRadius: 144,
     margin: 16,
+    borderColor:'orange',
+    borderWidth:4,
 
   },
   textContainer: {

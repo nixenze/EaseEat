@@ -15,7 +15,7 @@ import GuideInfoScreen from './screens/GuideInfoScreen'
 const mainApp = createBottomTabNavigator({
   Menu: FoodListScreen ,
   Scan: CameraScreen ,
-  Guide:  GuideInfoScreen ,
+  "How to order":  GuideInfoScreen ,
 },
   {
     navigationOptions: ({ navigation }) => ({
@@ -33,7 +33,7 @@ const mainApp = createBottomTabNavigator({
           iconName = 'list';
 
           iconType = 'entypo'
-        } else if (routeName === 'Guide'){
+        } else if (routeName === 'How to order'){
           iconName = `ios-information-circle${focused ? '' : '-outline'}`;
           iconType = 'ionicon'
         }
@@ -44,7 +44,7 @@ const mainApp = createBottomTabNavigator({
     }),
 
 
-    initialRouteName:"Scan",
+    initialRouteName:"How to order",
     tabBarOptions: {
       activeTintColor: 'orange',
       inactiveTintColor: 'black',
