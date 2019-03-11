@@ -279,26 +279,28 @@ class CameraScreen extends Component
             children={
               <View style={{ flex: 1 }}>
                 <View style={{ flex: 9, justifyContent: "center", alignItems: "center" }}>
-                  <View style={{ flex: 0.8, backgroundColor: "#ea893f", justifyContent: "center", alignItems: "center",width:"100%",borderTopStartRadius:16,borderTopEndRadius:16 }}>
+                  <View style={{ flex: 0.7, backgroundColor: "#ea893f", justifyContent: "center", alignItems: "center",width:"100%",borderTopStartRadius:16,borderTopEndRadius:16 }}>
                     <Text style={{ fontSize: 32, color: "white",fontWeight:"bold" }}>{(this.state.menuMode) ? "Menu Scan" : "Food Scan"}</Text>
                   </View>
-                  <View style={{ flex: 1, alignItems: "center" }}>
+                  <View style={{ flex: 0.5, alignItems: "center" }}>
                     <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop:32 }}>Choose your photo!</Text>
-
                   </View>
-
+                  <View style = {{width:"100%",flex:2, justifyContent:"space-around",alignItems:"center",flexDirection:"column"}}>
                   <TouchableOpacity
                     onPress={() => this.getImage('camera')}
                     style={styles.capture}
                   >
+                    <Icon name="camera" type = "feather" color = "#FFEBA3" size={72} />
                     <Text style={styles.fontStyle}>Take a Photo</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => this.getImage('gallery')}
                     style={styles.capture}
                   >
+                    <Icon name="md-images" type = "ionicon" color = "#FFEBA3" size={72} />
                     <Text style={styles.fontStyle}>Pick From Gallery</Text>
                   </TouchableOpacity>
+                  </View>
                 </View>
 
                 <View style={{ flex: 1 ,justifyContent:"center",alignItems:"center" }}>
@@ -429,18 +431,18 @@ const styles = StyleSheet.create({
   capture: {
 
     backgroundColor: 'orange',
-    borderRadius: 100,
-    height: 100,
-    width: 200,
+    borderRadius: 144,
+    height: 144,
+    width: 144,
     justifyContent: 'center',
     alignItems: 'center',
     //margin: 40
   },
   fontStyle: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-    padding: 5,
+    padding: 10,
   }
 });
