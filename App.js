@@ -14,7 +14,7 @@ import GuideInfoScreen from './screens/GuideInfoScreen'
 
 const mainApp = createBottomTabNavigator({
   Menu: FoodListScreen ,
-  Scan: CameraScreen ,
+  Home: CameraScreen ,
   "How to order":  GuideInfoScreen ,
 },
   {
@@ -24,15 +24,16 @@ const mainApp = createBottomTabNavigator({
         //let isReverse = false;
         let iconName;
         let iconType;
-        const pressColor = 'orange';
-        if (routeName === 'Scan') {
-          iconName = 'md-qr-scanner';
-
-          iconType = 'ionicon'
+        const pressColor = '#ea893f';
+        if (routeName === 'Home') {
+          iconName = `home${focused ? '' : '-outline'}`;
+          iconType = "material-community"
+    
         } else if (routeName === 'Menu') {
-          iconName = 'list';
+          iconName = 'food'
+          iconType = "material-community"
 
-          iconType = 'entypo'
+       
         } else if (routeName === 'How to order'){
           iconName = `ios-information-circle${focused ? '' : '-outline'}`;
           iconType = 'ionicon'
@@ -44,9 +45,9 @@ const mainApp = createBottomTabNavigator({
     }),
 
 
-    initialRouteName:"How to order",
+    initialRouteName:"Home",
     tabBarOptions: {
-      activeTintColor: 'orange',
+      activeTintColor: '#ea893f',
       inactiveTintColor: 'black',
     },
   }

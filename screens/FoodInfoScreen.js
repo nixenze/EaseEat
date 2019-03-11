@@ -13,7 +13,7 @@ class FoodInfoScreen extends Component {
   static navigationOptions = {
     title: 'Food Info',
     headerStyle: {
-      backgroundColor: 'orange',
+      backgroundColor: '#ea893f',
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
@@ -51,9 +51,9 @@ class FoodInfoScreen extends Component {
     //localDB.get("5682c099326de4b161c65d081405a092").then(result => {
     localDB.get(this.props.navigation.getParam('id')).then(result => {
       base64 = { uri: null };
-      if (result.hasOwnProperty('image'))
-        if (result.image.data != '')
-          base64 = { uri: 'data:' + result.image.type + ';base64,' + result.image.data };
+      // if (result.hasOwnProperty('image'))
+      //   if (result.image.data != '')
+          base64 = { uri: 'data:' + result.img_type + ';base64,' + result.img_data };
 
       const tempData = this.renderDetail(result, base64)
       this.setState({
@@ -287,10 +287,10 @@ class FoodInfoScreen extends Component {
         <SwitchSelector
           initial={0}
           onPress={key => this.showText(key)}
-          textColor={'orange'} //'#7a44cf'
+          textColor={'#ea893f'} //'#7a44cf'
           selectedColor={'white'}
-          buttonColor={'orange'}
-          borderColor={'orange'}
+          buttonColor={'#ea893f'}
+          borderColor={'#ea893f'}
           hasPadding
           options={switchOption}
           style={{ margin: 8 }}
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
 
     borderRadius: 144,
     margin: 16,
-    borderColor:'orange',
+    borderColor:'#ea893f',
     borderWidth:4,
 
   },

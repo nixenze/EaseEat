@@ -51,7 +51,7 @@ export default class WelcomeScreen extends Component {
     componentDidMount() {
         //setTimeout(this.updateDatabase.bind(this), 1000);
         //this.updateDatabase()
-        this.props.navigation.navigate('Scan')
+        this.props.navigation.navigate('Home')
     }
 
     render() {

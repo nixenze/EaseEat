@@ -25,9 +25,10 @@ const foodCompList = []
 class FoodListScreen extends Component {
 
     static navigationOptions = {
+        header:null,
         title: 'All Food Info',
         headerStyle: {
-            backgroundColor: 'orange',
+            backgroundColor: '#ea893f',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -58,11 +59,12 @@ class FoodListScreen extends Component {
             //console.log(response);
 
             response.rows.map(data => {
+                if(data.doc.AdditionRequired == false){
                 base64 = { uri: null };
                 //console.log(data.doc);
-                if (data.doc.hasOwnProperty('image'))
-                    if (data.doc.image.data != '')
-                        base64 = { uri: 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString() };
+                // if (data.doc.hasOwnProperty('img_type'))
+                // if (data.doc.image.data != '')
+                base64 = { uri: 'data:' + data.doc.img_type.toString() + ';base64,' + data.doc.img_data.toString() };
                 //{uri : 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString()}
 
 
@@ -72,7 +74,8 @@ class FoodListScreen extends Component {
                     thaiName: data.doc.Thai,
                     img: base64
                 })
-            })
+
+            }})
 
             foodCompList.pop()
 
@@ -119,8 +122,15 @@ class FoodListScreen extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <SearchBar
-                    platform="ios"
+                    platform="default"
+                    round
+                    containerStyle={{backgroundColor:"#ed9756",height:64,justifyContent:"center"}}
+                    //placeholderTextColor="#fae7d8"
+                    //rightIconContainerStyle={{color:"#fae7d8"}}
                     
+
+                    inputStyle={{backgroundColor:"white"}}
+                    inputContainerStyle={{backgroundColor:"white",height:40}}
                     onChangeText={this.searchFunc.bind(this)}
                     onClear={this.onClearSearchFunc.bind(this)}
                     placeholder='Search'

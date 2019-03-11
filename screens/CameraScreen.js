@@ -30,13 +30,17 @@ import { platform } from 'os';
 class CameraScreen extends Component
 {
   static navigationOptions = {
+    header: null,
     title: 'EaseEat',
     headerStyle: {
-      backgroundColor: 'orange',
+      backgroundColor: '#ea893f',
+      //justifyContent:"center"
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
-      fontFamily: 'Pacifico'
+      fontFamily: 'Pacifico',
+      fontWeight: '400',
+      fontSize: 26
     },
 
   };
@@ -155,6 +159,7 @@ class CameraScreen extends Component
 
   renderButton(menuMode, source, textShow)
   {
+    const iconSource = menuMode ? require("../images/menuScanIcon.png") : require("../images/foodScanIcon.png")
     return (
 
       <TouchableOpacity
@@ -168,27 +173,45 @@ class CameraScreen extends Component
           });
 
         }}
-        style={{flex:1, marginLeft: 32}}
+        style={{
+          flex: 1,
+          width: Dimensions.get("window").width,
+
+        }}
       >
         <View style={{
-          height: Dimensions.get("window").height / 4 - 16,
-          width: Dimensions.get("window").width - 64,
-          borderRadius: 16
+          flex: 1,
+          width: Dimensions.get("window").width,
+          //borderRadius: 
         }}>
           <ImageBackground
             style={{
-              height: Dimensions.get("window").height / 4 - 16,
-              width: Dimensions.get("window").width - 64,
-              borderRadius: 16,
+              flex: 1,
+              width: Dimensions.get("window").width,
+              //borderRadius: 16,
               justifyContent: "center",
 
 
             }}
             source={source}
-            imageStyle={{ borderRadius: 16 }}
+            imageStyle={{ borderWidth: 2, borderColor: "grey" }}
           >
-
-            <Text style={{ fontSize: 40, marginLeft: 16, fontWeight: "bold", color: "white" }}>{textShow}</Text>
+            <View style={{ flex: 1, flexDirection: `${menuMode ? "row-reverse" : "row"}`, justifyContent: "center", alignItems: "center" }}>
+              <View style={{
+                height: Dimensions.get('window').width / 4,
+                width: Dimensions.get('window').width / 4,
+                justifyContent: "center", alignItems: "center",
+                margin: 16
+              }}>
+                <Image source={iconSource}
+                  style={{
+                    height: Dimensions.get('window').width / 3,
+                    width: Dimensions.get('window').width / 3
+                  }}
+                />
+              </View>
+              <Text style={{ margin: 16, fontSize: 40, fontWeight: "bold", color: "white", fontFamily: 'Pacifico' }}>{textShow}</Text>
+            </View>
           </ImageBackground>
         </View>
 
@@ -211,183 +234,213 @@ class CameraScreen extends Component
 
         <View style={{
           flex: 1,
-          justifyContent: "space-around",
+          //justifyContent: "space-around",
+
         }}>
           <View style={{
-            flex: 0.8,
+            flex: 1,
+            //width:Dimensions.get("window").width,
+            //flexDirection: "row",
             justifyContent: "center",
-            marginLeft: 32
+            alignItems: "center",
+            //marginVertical: 16,
+            backgroundColor: "#EA893F"
           }}>
-            <Text>Welcome to ...</Text>
-            <Text style={{ fontSize: 48, fontWeight: 'bold' }}>EaseEat app!</Text>
-            <Text>Use this app to scan Thai food and read Thai menu for you</Text>
+            <View style={{ flex: 1 }}>
+              <Image source={require("../images/Logo-EaseEat.png")}
+                style={{
+                  height: Dimensions.get("window").width / 4,
+                  width: Dimensions.get("window").width / 4,
+                  borderRadius: 8,
+                  marginTop: 32
+                }} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={{ fontSize: 48, fontFamily: "Pacifico", color: "white" }}>EaseEat </Text>
+            </View>
+
+            {/* <Text>Welcome to ...</Text>
+            <Text style={{ fontSize: 48, fontWeight: "bold" }}>EaseEat app!</Text>
+            <Text>Use this app to scan Thai food and read Thai menu for you</Text> */}
+          </View>
+          <View style={{ flex: 2, justifyContent: "space-evenly" }}>
+            {this.renderButton(false, require("../images/2foodScan1.jpg"), "Food Scan")}
+            {this.renderButton(true, require("../images/menuScan5.jpg"), "Menu Scan")}
           </View>
 
-            {this.renderButton(false, require("../images/foodScan3.jpg"), "Food Scan")}
-            {this.renderButton(true, require("../images/menuScan2.jpg"), "Menu Scan")}
 
 
-            <Overlay isVisible={this.state.isVisible}
-              onBackdropPress={() => this.setState({ isVisible: false })}
-              children={
-                <View style={{ flex: 1, justifyContent: "space-around", alignItems: "center" }}>
-                  <View style={{ flex: 9, justifyContent: "space-around", alignItems: "center" }}>
-                    <View style={{flex:0.25,justifyContent:"center",alignItems:"center"}}>
-                    <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Choose your photo!</Text>
-                    <Text style={{fontSize:18, color:"orange"}}>{(this.state.menuMode) ? "Menu Scan":"Food Scan"}</Text>
-                    </View>
-                    <TouchableOpacity
-                      onPress={() => this.getImage('camera')}
-                      style={styles.capture}
-                    >
-                      <Text style={styles.fontStyle}>Take a Photo</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => this.getImage('gallery')}
-                      style={styles.capture}
-                    >
-                      <Text style={styles.fontStyle}>Pick From Gallery</Text>
-                    </TouchableOpacity>
+
+          <Overlay isVisible={this.state.isVisible}
+            onBackdropPress={() => this.setState({ isVisible: false })}
+            borderRadius={16}
+            animationType="slide"
+            overlayStyle={{padding:0,borderRadius:16}}
+            children={
+              <View style={{ flex: 1 }}>
+                <View style={{ flex: 9, justifyContent: "center", alignItems: "center" }}>
+                  <View style={{ flex: 0.8, backgroundColor: "#ea893f", justifyContent: "center", alignItems: "center",width:"100%",borderTopStartRadius:16,borderTopEndRadius:16 }}>
+                    <Text style={{ fontSize: 32, color: "white",fontWeight:"bold" }}>{(this.state.menuMode) ? "Menu Scan" : "Food Scan"}</Text>
                   </View>
-                  <View style={{ flex: 1 }}>
-                    <Icon
-                      name="cancel"
-                      type="material"
-                      size={40}
-                      onPress={() => this.setState({ isVisible: false })}
-                    /></View>
+                  <View style={{ flex: 1, alignItems: "center" }}>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop:32 }}>Choose your photo!</Text>
 
+                  </View>
+
+                  <TouchableOpacity
+                    onPress={() => this.getImage('camera')}
+                    style={styles.capture}
+                  >
+                    <Text style={styles.fontStyle}>Take a Photo</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => this.getImage('gallery')}
+                    style={styles.capture}
+                  >
+                    <Text style={styles.fontStyle}>Pick From Gallery</Text>
+                  </TouchableOpacity>
                 </View>
-              }
-            >
 
-            </Overlay>
+                <View style={{ flex: 1 ,justifyContent:"center",alignItems:"center" }}>
+                  <Icon
+                    name="cancel"
+                    type="material"
+                    size={40}
+                    onPress={() => this.setState({ isVisible: false })}
+                  />
+                </View>
 
-            <Modal transparent={true}
-              animationType={'fade'}
-              visible={this.state.loading}
-              onRequestClose={() => { this.setState({ loading: true }) }}
-            >
-              <View style={styles.loading}>
-                <ActivityIndicator size='large' />
               </View>
-            </Modal>
+            }
+          >
+
+          </Overlay>
+
+          <Modal transparent={true}
+            animationType={'fade'}
+            visible={this.state.loading}
+            onRequestClose={() => { this.setState({ loading: true }) }}
+          >
+            <View style={styles.loading}>
+              <ActivityIndicator size='large' />
+            </View>
+          </Modal>
 
 
 
 
-          </View>
-          )
-    
-          // previous homescreen
-          //
+        </View>
+      )
+
+      // previous homescreen
+      //
       // <View style={{
-            //   flex: 1,
-            //   flexDirection: 'column',
-            //   justifyContent: 'center',
-            //   alignItems: 'center',
-            //   marginTop: 50,
-            //   marginBottom: 50
-            // }}>
-            //   <TouchableOpacity
-            //     onPress={() => this.getImage('camera')}
-            //     style={styles.capture}
-            //   >
-            //     <Text style={styles.fontStyle}>Take Photo</Text>
-            //   </TouchableOpacity>
-            //   <TouchableOpacity
-            //     onPress={() => this.getImage('gallery')}
-            //     style={styles.capture}
-            //   >
-            //     <Text style={styles.fontStyle}>Pick From Gallery</Text>
-            //   </TouchableOpacity>
-            //   <SwitchSelector
-            //     initial={0}
-            //     onPress={value => this.setState({ menuMode: value })}
-            //     textColor={'orange'} //'#7a44cf'
-            //     selectedColor={'white'}
-            //     buttonColor={'orange'}
-            //     borderColor={'orange'}
-            //     hasPadding
-            //     options={switchOption}
-            //     style={{ margin: 50 }}
-            //   />
+      //   flex: 1,
+      //   flexDirection: 'column',
+      //   justifyContent: 'center',
+      //   alignItems: 'center',
+      //   marginTop: 50,
+      //   marginBottom: 50
+      // }}>
+      //   <TouchableOpacity
+      //     onPress={() => this.getImage('camera')}
+      //     style={styles.capture}
+      //   >
+      //     <Text style={styles.fontStyle}>Take Photo</Text>
+      //   </TouchableOpacity>
+      //   <TouchableOpacity
+      //     onPress={() => this.getImage('gallery')}
+      //     style={styles.capture}
+      //   >
+      //     <Text style={styles.fontStyle}>Pick From Gallery</Text>
+      //   </TouchableOpacity>
+      //   <SwitchSelector
+      //     initial={0}
+      //     onPress={value => this.setState({ menuMode: value })}
+      //     textColor={'orange'} //'#7a44cf'
+      //     selectedColor={'white'}
+      //     buttonColor={'orange'}
+      //     borderColor={'orange'}
+      //     hasPadding
+      //     options={switchOption}
+      //     style={{ margin: 50 }}
+      //   />
 
-            //   <Modal transparent={true}
-            //     animationType={'fade'}
-            //     visible={this.state.loading}
-            //     onRequestClose={()=>{this.setState({loading:true})}}
-            //     >
-            //     <View style={styles.loading}>
-            //       <ActivityIndicator size='large' />
-            //       </View>
-            //     </Modal>
+      //   <Modal transparent={true}
+      //     animationType={'fade'}
+      //     visible={this.state.loading}
+      //     onRequestClose={()=>{this.setState({loading:true})}}
+      //     >
+      //     <View style={styles.loading}>
+      //       <ActivityIndicator size='large' />
+      //       </View>
+      //     </Modal>
 
-            // </View >
+      // </View >
 
-          }
-          }
+    }
+  }
 
 
-            render()
+  render()
   {
     //console.log(this.props.navigation.state);
     return (
       //<View style={styles.container}>
-            this.renderScreen()
-      
-      
-      
-          );
-        }
-      
-      
-      }
-      
+      this.renderScreen()
+
+
+
+    );
+  }
+
+
+}
+
 export default createStackNavigator({
-              cameraRoot: CameraScreen,
-            result: CameraResult,
-            foodInfo: FoodInfoScreen
-          
+  cameraRoot: CameraScreen,
+  result: CameraResult,
+  foodInfo: FoodInfoScreen
+
 }, {
-              cardStyle: {backgroundColor: 'white' }
-          }
-        );
-        
-        
-        
-        
-        
+    cardStyle: { backgroundColor: 'white' }
+  }
+);
+
+
+
+
+
 const styles = StyleSheet.create({
-              container: {
-              flex: 1,
-          },
+  container: {
+    flex: 1,
+  },
   preview: {
-              flex: 1,
-            justifyContent: 'flex-end',
-            alignItems: 'center'
-          },
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
   loading: {
-              flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'rgba(0,0,0,0.3)'
-          },
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.3)'
+  },
   capture: {
 
-              backgroundColor: 'orange',
-            borderRadius: 100,
-            height: 100,
-            width: 200,
-            justifyContent: 'center',
-            alignItems: 'center',
-            //margin: 40
-          },
+    backgroundColor: 'orange',
+    borderRadius: 100,
+    height: 100,
+    width: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //margin: 40
+  },
   fontStyle: {
-              color: 'white',
-            fontSize: 20,
-            fontWeight: 'bold',
-            textAlign: 'center',
-            padding: 5,
-          }
-        });
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: 5,
+  }
+});

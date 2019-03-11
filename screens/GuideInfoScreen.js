@@ -15,9 +15,10 @@ export class GuideInfoScreen extends Component
 {
 
   static navigationOptions = {
+    header: null,
     title: 'Eating Guide',
     headerStyle: {
-      backgroundColor: 'orange',
+      backgroundColor: '#ea893f',
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
@@ -29,43 +30,68 @@ export class GuideInfoScreen extends Component
 
 
 
-  renderGuide(logo,type)
+  renderGuide(type)
   {
+    switch (type)
+    {
+      case "Made to order":
+        logo = require("../images/made-to-order.png")
+        pic = require("../images/made-to-order-pic4.jpg")
+        break;
+      case "Food stall":
+        logo = require("../images/food-stall.png")
+        pic = require("../images/food-stall-pic2.jpg")
+        break;
+      case "Thai restaurant":
+        logo = require("../images/thai-restaurant.png")
+        pic = require("../images/thai-restaurant-pic.jpg")
+        break;
+      case "More soon...":
+        logo = null
+        pic = require("../images/more-soon2.jpg")
+        break;
 
+      default:
+        break;
+    }
 
     return (
-      <View style={{width: Dimensions.get("window").width / 2, height: Dimensions.get("window").width / 2,borderWidth:1,borderColor:"grey"}}>
-      <TouchableOpacity
-        style={{
-          flex: 1,
-          // backgroundColor:"orange"
-        }}
-        onPress={() => this.props.navigation.navigate("guidePdf",{type:type})}
-      >
-        <ImageBackground
-          source={require("../images/foodScan3.jpg")}
+      <View style={{ width: Dimensions.get("window").width / 2, height: Dimensions.get("window").width / 2, borderWidth: 1, borderColor: "grey" }}>
+        <TouchableOpacity
           style={{
             flex: 1,
-            justifyContent:"center",
-            alignItems:"center"
+            // backgroundColor:"orange"
           }}
-          imageStyle={{
+          onPress={() =>
+          {
+            if (type != "More soon...")
+             this.props.navigation.navigate("guidePdf", { type: type }) 
           }}
         >
-          <Image source={logo}
-          style={{
-          width: Dimensions.get("window").width / 4, height: Dimensions.get("window").width / 4,
-          resizeMode:"cover",
-          
-          margin:8
-          }}
-          
-          
-          />
-          <Text style={{fontSize:20, color:"white", fontWeight:"bold"}}>{type.toUpperCase()}</Text>
-        </ImageBackground>
+          <ImageBackground
+            source={pic}
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+            imageStyle={{
+            }}
+          >
+            <Image source={logo}
+              style={{
+                width: Dimensions.get("window").width / 4, height: Dimensions.get("window").width / 4,
+                resizeMode: "cover",
 
-      </TouchableOpacity>
+                margin: 8
+              }}
+
+
+            />
+            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>{type.toUpperCase()}</Text>
+          </ImageBackground>
+
+        </TouchableOpacity>
       </View>
     )
   }
@@ -90,17 +116,17 @@ export class GuideInfoScreen extends Component
             resizeMode="center"
           />
         </View>
-        <ScrollView style={{flex:1}}>
-        <View style={{
-          flex: 1,
-          flexDirection: "row",
-          flexWrap:"wrap"
-        }}>
-        {this.renderGuide(require("../images/made-to-order.png"),"Made to order")}
-        {this.renderGuide(require("../images/food-stall.png"),"Food stall")}
-        {this.renderGuide(require("../images/thai-restaurant.png"),"Thai restaurant")}
-        {this.renderGuide(require("../images/made-to-order.png"),"More soon...")}
-        </View>
+        <ScrollView style={{ flex: 1 }}>
+          <View style={{
+            flex: 1,
+            flexDirection: "row",
+            flexWrap: "wrap"
+          }}>
+            {this.renderGuide("Made to order")}
+            {this.renderGuide("Food stall")}
+            {this.renderGuide("Thai restaurant")}
+            {this.renderGuide("More soon...")}
+          </View>
         </ScrollView>
       </View>
     )
@@ -139,7 +165,7 @@ const styles = StyleSheet.create({
 
 export default createStackNavigator({
   guideRoot: withNavigationFocus(GuideInfoScreen),
-  guidePdf : GuidePdfScreen
+  guidePdf: GuidePdfScreen
 
 }, {
     cardStyle: { backgroundColor: 'white' }

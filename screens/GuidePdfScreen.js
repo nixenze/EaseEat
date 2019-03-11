@@ -23,7 +23,7 @@ export class GuidePdfScreen extends Component
     return {
       title: navigation.getParam('type', 'no data')+' guide',
       headerStyle: {
-        backgroundColor: 'orange',
+        backgroundColor: '#ea893f',
       },
       headerTintColor: '#fff',
       headerTitleStyle: {

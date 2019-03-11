@@ -8,7 +8,7 @@ class CameraResult extends Component {
   static navigationOptions = {
     title: 'Scan Result',
     headerStyle: {
-      backgroundColor: 'orange',
+      backgroundColor: '#ea893f',
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
@@ -50,10 +50,12 @@ class CameraResult extends Component {
             // var trueImg = null;
             // localDB.getAttachment(id,imageAttch).then((blob) => trueImg = blob)
             // console.log(result.image.type.toString());
+
             base64 = {uri:null};
-            if (result.hasOwnProperty('image'))
-              if(result.image.data!='')
-                base64 = { uri: 'data:' + result.image.type + ';base64,' + result.image.data };
+            // if (result.hasOwnProperty('image'))
+            //   if(result.image.data!='')
+
+            base64 = { uri: 'data:' + result.img_type + ';base64,' + result.img_data };
             //{uri : 'data:' + data.doc.image.type.toString() + ';base64,' + data.doc.image.data.toString()}
               
             //console.log(base64.length
