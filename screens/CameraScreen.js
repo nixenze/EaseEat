@@ -283,7 +283,7 @@ class CameraScreen extends Component
                     <Text style={{ fontSize: 32, color: "white",fontWeight:"bold" }}>{(this.state.menuMode) ? "Menu Scan" : "Food Scan"}</Text>
                   </View>
                   <View style={{ flex: 0.5, alignItems: "center" }}>
-                    <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop:32 }}>Choose your photo!</Text>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop:24 }}>Choose your photo!</Text>
                   </View>
                   <View style = {{width:"100%",flex:2, justifyContent:"space-around",alignItems:"center",flexDirection:"column"}}>
                   <TouchableOpacity
@@ -443,6 +443,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-    padding: 10,
+    paddingHorizontal: 10,
   }
 });

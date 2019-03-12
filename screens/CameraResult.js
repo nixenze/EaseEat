@@ -105,6 +105,7 @@ class CameraResult extends Component {
           <Text style={styles.resultBannerText}>Results</Text>
         </ImageBackground>
         {this.showResult()}
+        
       </View>
     )
   }
@@ -129,12 +130,15 @@ class ResultList extends Component {
   }
   render() {
     return (
-      <FlatList
+      
+        <FlatList
         keyExtractor={item => item.id}
         data={this.props.data}
         ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: 'gainsboro' }} />}
         renderItem={this.renderItem}
-      />
+        />
+    
+      
     )
   }
 }

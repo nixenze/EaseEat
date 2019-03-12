@@ -19,8 +19,9 @@ export class FoodItem extends PureComponent {
                 //useForeground={true}
                 style={foodStyles.container}
             >
-
-                <View style={foodStyles.foodItem}>
+                <View>
+                    <View style={foodStyles.foodItem}>
+                    
                     <Image
                         style={foodStyles.image}
                         source={this.props.img}
@@ -29,9 +30,12 @@ export class FoodItem extends PureComponent {
                         <Text style={foodStyles.engText}>{this.props.engName}</Text>
                         <Text>{this.props.thaiName}</Text>
                     </View>
-
-
+                    
+                    
                     </View>
+                    <View style={{ height: 1, backgroundColor: 'gainsboro' }} />
+                </View>
+                
             </TouchNative>
         )
     }

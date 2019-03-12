@@ -13,11 +13,7 @@ import { withNavigationFocus, createStackNavigator } from 'react-navigation';
 export class GuidePdfScreen extends Component
 {
     
-  static navigationOptions = {
-    title: '',
-    
 
-  };
 
   static navigationOptions = ({ navigation }) => {
     return {
@@ -36,9 +32,9 @@ export class GuidePdfScreen extends Component
     renderPdf(sourceURI)
     {
 
-        const source = {uri:"bundle-assets://restaurant.pdf",cache:true};
+        const source = {uri:"data:application/pdf;base64,"+sourceURI,cache:true}
         //const source = { uri: sourceURI, cache: true };
-        return (
+        return ( this.props.isFocused ?
             
                 <View style={{
                     // marginHorizontal: 16,
@@ -70,17 +66,18 @@ export class GuidePdfScreen extends Component
                         }}
                         style={styles.pdf} />
                 </View>
-                
+                : null
         )
     }
 
 
     render()
     {
-        return (
+        return (  
             <View style={{flex:1}}>
-                {this.renderPdf("notnowboisss")}
+                {this.renderPdf(this.props.navigation.getParam("pdfData"))}
             </View>
+            
         )
     }
 }
@@ -91,4 +88,4 @@ const styles = StyleSheet.create({
       width: Dimensions.get('window').width,
     }
   });
-export default GuidePdfScreen
+export default withNavigationFocus(GuidePdfScreen)

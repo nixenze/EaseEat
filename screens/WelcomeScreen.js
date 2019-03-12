@@ -20,7 +20,7 @@ export default class WelcomeScreen extends Component {
                 .then(() => {
 
 
-                    this.props.navigation.navigate('Scan')
+                    this.props.navigation.navigate('Home')
                 })
 
                 .catch(err => {
@@ -32,7 +32,7 @@ export default class WelcomeScreen extends Component {
                             { text: 'OK', onPress: () => { } }
                         ]
                     );
-                    this.props.navigation.navigate('Scan');
+                    this.props.navigation.navigate('Home');
                 })
         })
             .catch(err => {
@@ -44,14 +44,14 @@ export default class WelcomeScreen extends Component {
                         { text: 'OK', onPress: () => { } }
                     ]
                 );
-                this.props.navigation.navigate('Scan');
+                this.props.navigation.navigate('Home');
             });
 
     }
     componentDidMount() {
         //setTimeout(this.updateDatabase.bind(this), 1000);
-        //this.updateDatabase()
-        this.props.navigation.navigate('Home')
+        this.updateDatabase()
+        //this.props.navigation.navigate('Home')
     }
 
     render() {
@@ -70,7 +70,7 @@ export default class WelcomeScreen extends Component {
                 </View>
                 <View style={styles.loading}>
                     <ActivityIndicator size='large' />
-                    <Text style={styles.subText} > Syncing in progress... </Text>
+                    <Text style={styles.subText} > Checking for updates </Text>
                 </View>
             </View>
         )

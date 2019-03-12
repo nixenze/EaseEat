@@ -74,12 +74,13 @@ class FoodInfoScreen extends Component {
   }
 
   renderDetail(object, base64) {
-    let text
-    if (object.hasOwnProperty('About'))
-      text = object.About
-    else
-      text = '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."'
-    let calories = object.hasOwnProperty('Calories') ? object.Calories : 'No Data';
+    //let text = ""
+    // if (object.hasOwnProperty('About'))
+    //   text = object.About
+    // else
+    //   text = ''
+    
+      let calories = object.hasOwnProperty('Calories') ? object.Calories : 'No Data';
     return (
 
       <ScrollView>
@@ -94,10 +95,10 @@ class FoodInfoScreen extends Component {
               <Text style={{ fontWeight: 'bold' }}>Calories (per serving):</Text>
               <Text>{'\t\t' + calories}</Text>
             </View>
-            <View margin={16}>
+            {/* <View margin={16}>
               <Text style={{ fontWeight: 'bold' }}>About:</Text>
               <Text>{'\t\t' + text}</Text>
-            </View>
+            </View> */}
           </View>
 
 
