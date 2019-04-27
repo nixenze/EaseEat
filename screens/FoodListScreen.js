@@ -59,6 +59,7 @@ class FoodListScreen extends Component {
             //console.log(response);
 
             response.rows.map(data => {
+                console.log(data.id);
                 if(data.doc.AdditionRequired == false){
                 base64 = { uri: null };
                 //console.log(data.doc);

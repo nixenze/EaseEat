@@ -8,7 +8,7 @@ export default class WelcomeScreen extends Component {
     updateDatabase() {
 
 
-        remoteDB.logIn('ease_eat', 'EeFbyhpK!QP-yQ4&').then(() => {
+        remoteDB.logIn('admin', 'thisispassword').then(() => {
 
             localDB.replicate.from(remoteDB, {
                 live: false, retry: false
